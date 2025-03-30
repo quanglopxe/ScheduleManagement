@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<QL_LICHHOP.Models.MeetingSchedule>
+<form method="get" action="@Url.Action("Index")" class="p-3 border rounded">
+    <div class="row mb-2">
+        <!-- Lịch làm việc của -->
+        <div class="col-md-3">
+            <label for="scheduleName">Lịch làm việc của:</label>
+            <select id="scheduleName" name="scheduleName" class="form-select">
+                <option value="">Tất cả</option>
+                @foreach (var scd in ViewBag.ScheduleType)
+                {
+                    <option value="@scd.Name">@scd.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Người đăng ký -->
+        <div class="col-md-3">
+            <label for="registerer">Người đăng ký:</label>
+            <input type="text" id="registerer" name="registerer" class="form-control" placeholder="Nhập tên">
+        </div>
+
+        <!-- Địa điểm -->
+        <!--<div class="col-md-3">
+        <label for="location">Địa điểm:</label>
+        <input type="text" id="location" name="location" class="form-control" placeholder="Nhập địa điểm">
+    </div>-->
+        <!-- Người chủ trì -->
+        <div class="col-md-3">
+            <label for="host">Người chủ trì:</label>
+            <input type="text" id="host" name="host" class="form-control" placeholder="Nhập tên">
+        </div>
+        <!-- Tình trạng -->
+        <div class="col-md-3">
+            <label for="status">Tình trạng:</label>
+            <select id="status" name="status" class="form-control">
+                <option value="">Tất cả</option>
+                <option value="Chờ duyệt">Chờ duyệt</option>
+                <option value="Đã duyệt">Đã duyệt</option>
+                <option value="Đã hoãn">Đã hoãn</option>
+                <option value="Đã dời">Đã dời lịch</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        
+
+        <!-- Thư mời họp -->
+        <!--<div class="col-md-3 d-flex align-items-center">
+            <label class="mr-2" for="invitation">Thư mời họp:</label>
+            <input type="checkbox" id="invitation" name="invitation" value="true">
+        </div>-->
+
+        <!-- Nút tìm kiếm -->
+        <div class="col-md text-center mt-2">
+            <button type="submit" class="btn btn-outline-success">
+                🔍 Tìm kiếm
+            </button>
+        </div>
+    </div>
+</form>
+<br />
+<center><h3 style="color: blue">LỊCH DỰ KIẾN TRONG TUẦN</h3></center>
+<div style="text-align: center; margin-bottom: 20px;">
+    <form method="get" action="@Url.Action("Index")">
+        <input type="date" id="selectedDate" name="selectedDate"
+               value="@ViewBag.SelectedDate.ToString("yyyy-MM-dd")"
+               onchange="this.form.submit()" style="display: none;" />
+
+        <!-- Nút icon lịch -->
+        <button type="button" onclick="document.getElementById('selectedDate').showPicker()">
+            📅 Chọn ngày
+        </button>
+    </form>
+
+    <a style="font-size: 20px" href="@Url.Action("Index", new { selectedDate = ViewBag.StartOfWeek.AddDays(-7).ToString("yyyy-MM-dd") })"><i class="bi bi-caret-left"></i></a>
+    <strong>Tuần @ViewBag.WeekNumber: @ViewBag.StartOfWeek.ToString("dd/MM/yyyy") - @ViewBag.EndOfWeek.ToString("dd/MM/yyyy")</strong>
+    <a style="font-size: 20px" href="@Url.Action("Index", new { selectedDate = ViewBag.StartOfWeek.AddDays(7).ToString("yyyy-MM-dd") })"><i class="bi bi-caret-right"></i></a>
+</div>
+<div class="d-flex justify-content-end">
+    <button style="margin-right: 25px" type="button" class="btn btn-outline-success"><i class="bi bi-printer"></i> In lịch</button>
+    <button style="margin-right: 40px" type="button" class="btn btn-outline-success"><i class="bi bi-check-lg"></i> Duyệt tất cả</button>
+</div>
+<table class="table table-bordered" style="border: 1px solid black">
+    <thead>
+        <tr style="text-align: center;">
+            <th style="background-color: lightgray">Thứ & Ngày</th>
+            <th style="background-color: lightgray">Buổi Sáng</th>
+            <th style="background-color: lightgray">Buổi Chiều</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr style="text-align: center">
+                <th width="150px">
+                    @schedule.DayOfWeek <br />(@schedule.Date.ToString("dd/MM/yyyy")) <br /><br />
+                    <a href="@Url.Action("Create", "ManageSchedule")" style="font-size: 30px"><i class="bi bi-file-earmark-plus"></i></a>
+                </th>
+                <td style="text-align: left">
+                    @if (schedule.MorningSession != null && schedule.MorningSession.Count > 0)
+                    {
+                        foreach (var morning in schedule.MorningSession)
+                        {
+                            <div><h4 style="color: red">@morning.StartTime</h4></div>
+                            <div><strong>Nội dung:</strong><span style="color: blue"> @morning.Title</span></div>
+                            <div>
+                                <strong>Người chủ trì:</strong>
+                                @if (morning.Host.Count > 0)
+                                {
+                                    <span>@string.Join(", ", morning.Host)</span>
+                                }
+                                else
+                                {
+                                    <span>Không có</span>
+                                }
+                            </div>
+                            <div>
+                                <strong>Thành phần:</strong>
+                                @if (morning.Participants.Count > 0)
+                                {
+                                    <span>@string.Join(", ", morning.Participants)</span>
+                                }
+                                else
+                                {
+                                    <span>Không có</span>
+                                }
+                            </div>
+                            <div><strong>Phòng ban đăng ký:</strong> @morning.RegistrationPlace</div>
+                            <div><strong>Người đăng ký:</strong> @morning.CreatedBy</div>
+                            <div><strong>Loại lịch:</strong><span style="color:red"> @morning.ScheduleName</span></div>
+                            <div><strong>Tình trạng:</strong><span style="color:seagreen"> @morning.Status</span></div>
+
+                            if (morning.AttachmentUrls.Count > 0)
+                            {
+                                <div>
+                                    <strong>Tài liệu cuộc họp: </strong>
+                                    <ul>
+                                        @foreach (var file in morning.AttachmentUrls)
+                                        {
+                                            <li><a href="@file" target="_blank">Tải xuống</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <span>Không có cuộc họp buổi sáng.</span>
+                    }
+                </td>
+                <td style="text-align: left">
+                    @if (schedule.AfternoonSession != null && schedule.AfternoonSession.Count > 0)
+                    {
+                        foreach (var afternoon in schedule.AfternoonSession)
+                        {
+                            <div><h4 style="color: red">@afternoon.StartTime</h4></div>
+                            <div><strong>Nội dung:</strong><span style="color: blue"> @afternoon.Title</span></div>
+                            <div>
+                                <strong>Người chủ trì:</strong>
+                                @if (afternoon.Host.Count > 0)
+                                {
+                                    <span>@string.Join(", ", afternoon.Host)</span>
+                                }
+                                else
+                                {
+                                    <span>Không có</span>
+                                }
+                            </div>
+                            <div>
+                                <strong>Thành phần:</strong>
+                                @if (afternoon.Participants.Count > 0)
+                                {
+                                    <span>@string.Join(", ", afternoon.Participants)</span>
+                                }
+                                else
+                                {
+                                    <span>Không có</span>
+                                }
+                            </div>
+                            <div><strong>Phòng ban đăng ký:</strong> @afternoon.RegistrationPlace</div>
+                            <div><strong>Người đăng ký:</strong> @afternoon.CreatedBy</div>
+                            <div><strong>Loại lịch:</strong><span style="color:red"> @afternoon.ScheduleName</span></div>
+                            <div><strong>Tình trạng:</strong><span style="color:seagreen"> @afternoon.Status</span></div>
+
+                            if (afternoon.AttachmentUrls.Count > 0)
+                            {
+                                <div>
+                                    <strong>Tài liệu cuộc họp:</strong>
+                                    <ul>
+                                        @foreach (var file in afternoon.AttachmentUrls)
+                                        {
+                                            <li><a href="@file" target="_blank">Tải xuống</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <span>Không có cuộc họp buổi chiều.</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

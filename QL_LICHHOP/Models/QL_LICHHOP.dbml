@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QL_LICHHOP" Class="QL_LICHHOPDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Departments" Member="Departments">
+    <Type Name="Department">
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DepartmentName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Department_User" Member="Users" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="User" />
+      <Association Name="Department_Meeting" Member="Meetings" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Meeting" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="RoleInMeet" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="User_MeetingHost" Member="MeetingHosts" ThisKey="UserID" OtherKey="UserID" Type="MeetingHost" />
+      <Association Name="User_MeetingParticipant" Member="MeetingParticipants" ThisKey="UserID" OtherKey="UserID" Type="MeetingParticipant" />
+      <Association Name="Department_User" Member="Department" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MeetingAttachments" Member="MeetingAttachments">
+    <Type Name="MeetingAttachment">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FilePath" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="UploadedBy" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UploadedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Meeting_MeetingAttachment" Member="Meeting" ThisKey="MeetingID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MeetingHosts" Member="MeetingHosts">
+    <Type Name="MeetingHost">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_MeetingHost" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Meeting_MeetingHost" Member="Meeting" ThisKey="MeetingID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MeetingParticipants" Member="MeetingParticipants">
+    <Type Name="MeetingParticipant">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_MeetingParticipant" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Meeting_MeetingParticipant" Member="Meeting" ThisKey="MeetingID" OtherKey="MeetingID" Type="Meeting" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Meetings" Member="Meetings">
+    <Type Name="Meeting">
+      <Column Name="MeetingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="RegistrationPlace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ScheduleTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ScheduleType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="StartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DurationMinutes" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="VehicleType" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Preparation" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Meeting_MeetingAttachment" Member="MeetingAttachments" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingAttachment" />
+      <Association Name="Meeting_MeetingHost" Member="MeetingHosts" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingHost" />
+      <Association Name="Meeting_MeetingParticipant" Member="MeetingParticipants" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingParticipant" />
+      <Association Name="Department_Meeting" Member="Department" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Department" IsForeignKey="true" />
+      <Association Name="ScheduleType_Meeting" Member="ScheduleType1" ThisKey="ScheduleTypeID" OtherKey="ScheduleTypeID" Type="ScheduleType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ScheduleTypes" Member="ScheduleTypes">
+    <Type Name="ScheduleType">
+      <Column Name="ScheduleTypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="ScheduleType_Meeting" Member="Meetings" ThisKey="ScheduleTypeID" OtherKey="ScheduleTypeID" Type="Meeting" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,389 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model QL_LICHHOP.ViewModels.MeetingViewModel
+<style>
+    .form-control, .form-select {
+        border: 2px solid #007bff; /* Màu viền */
+        border-radius: 0.25rem; /* Đường viền bo tròn */
+        transition: border-color 0.2s; /* Hiệu ứng chuyển tiếp */
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0056b3; /* Màu viền khi có tiêu điểm */
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Hiệu ứng bóng */
+        }
+</style>
+@using (Html.BeginForm("Create", "ManageSchedule", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nơi đăng ký</label>
+        <div class="col-md-2">
+            @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "DepartmentID", "DepartmentName"), "", new { @class = "form-select" })
+        </div>
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Lịch làm việc của <span style="color: red">(*)</span></label>
+        <div class="col-md-3">
+            @Html.DropDownList("ScheduleTypeID", new SelectList(ViewBag.ScheduleTypes, "ScheduleTypeID", "Name"), "", new { @class = "form-select" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Loại lịch <span style="color: red">(*)</span></label>
+        <div class="col-md-2">
+            @Html.DropDownListFor(m => m.ScheduleType, new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Sáng", Text = "Sáng" },
+                new SelectListItem { Value = "Chiều", Text = "Chiều" },
+                new SelectListItem { Value = "Cả ngày", Text = "Cả ngày" }
+            }, "Value", "Text"), "", new { @class = "form-select", required = "required" })
+        </div>
+        <label style="background-color: lightblue; text-align: right" class="col-md-1 col-form-label">Thời gian <span style="color: red">(*)</span></label>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", type = "datetime-local", required = "required" })
+        </div>
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Thời gian họp dự kiến (phút)</label>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", required = "required", min = "0" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Người chủ trì</label>
+
+        <!-- Combobox chọn người chủ trì từ danh sách -->
+        <div class="col-md-2">
+            @Html.DropDownList("HostUserID", new SelectList(ViewBag.Hosts, "UserID", "FullName"), "-- Chọn người chủ trì --", new { @class = "form-select", id = "ddlHostUser" })
+        </div>
+
+        <!-- Ô nhập liệu nếu muốn nhập người chủ trì khác -->
+        <div class="col-md-3">
+            <input type="text" id="txtCustomHost" class="form-control" placeholder="Nhập người chủ trì khác..." />
+        </div>
+
+        <!-- Nút thêm người chủ trì -->
+        <div class="col-md-2">
+            <button id="btnAddHost" type="button" class="btn btn-primary">Thêm mới người chủ trì</button>
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nội dung <span style="color: red">(*)</span></label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Địa điểm</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Location, new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">
+            Thành phần tham dự
+        </label>
+        <div class="col-md-2">
+            <select id="department" class="form-select" name="selectedDepartment" onchange="updateEmployees()">
+                <option value="">-- Chọn phòng ban --</option>
+                @foreach (var department in ViewBag.Departments)
+                {
+                    <option value="@department.DepartmentID">@department.DepartmentName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="employeeSelect" class="form-select">
+                <option value="">-- Chọn người tham dự --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="employeeName" class="form-control" placeholder="Tên người tham dự (Tạo mới)" />
+        </div>
+        <div class="col-md-3">
+            <button id="addParticipant" type="button" class="btn btn-primary">Thêm</button>
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <div class="col-md-2" style="background-color: lightblue"></div>
+        <div class="col-md-9">
+            <input type="hidden" id="selectedUsers" name="selectedUsers" />
+            <input type="hidden" id="newParticipants" name="newParticipants" />
+            <ul id="participantList" class="list-group">
+                <!-- Danh sách thành phần tham dự sẽ được thêm vào đây -->
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Phương tiện</label>
+        <div class="col-md-3">
+            @Html.DropDownListFor(m => m.VehicleType, new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Xe công ty", Text = "Xe công ty" },
+                new SelectListItem { Value = "Xe cá nhân", Text = "Xe cá nhân" },
+                new SelectListItem { Value = "Máy bay", Text = "Máy bay" }
+            }, "Value", "Text"), "", new { @class = "form-select", required = "required" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Chuẩn bị</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Đính kèm tài liệu họp</label>
+        <div class="col-md-9">
+            <input type="file" id="fileInput" name="Attachments" multiple class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <div class="col-md-2" style="background-color: lightblue"></div>
+        <div class="col-md-9">
+            <ul id="fileList" class="list-group">
+                <!-- Danh sách tài liệu sẽ được thêm vào đây -->
+            </ul>
+        </div>
+    </div>
+
+    <center><button id="addMeeting" type="submit" class="btn btn-primary">Thêm lịch họp</button></center>
+}
+
+<script>
+    // Xử lý thêm người tham dự
+    document.getElementById('addParticipant').addEventListener('click', function () {
+        var departmentSelect = document.getElementById('department');
+        var departmentID = departmentSelect.value;
+        var departmentName = departmentSelect.options[departmentSelect.selectedIndex]?.text;
+
+        var employeeSelect = document.getElementById('employeeSelect');
+        var employeeID = employeeSelect.value;
+        var employeeName = document.getElementById('employeeName').value;
+
+        if (!departmentID) {
+            alert('Vui lòng chọn phòng ban.');
+            return;
+        }
+
+        if (!employeeID && !employeeName) {
+            alert('Vui lòng chọn nhân viên hoặc nhập tên mới.');
+            return;
+        }
+
+        var participantList = document.getElementById('participantList');
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+
+        if (employeeID) {
+            listItem.textContent = `Phòng ban: ${departmentName} - Nhân viên: ${employeeSelect.options[employeeSelect.selectedIndex].text}`;
+            listItem.setAttribute('data-user-id', employeeID);
+        } else {
+            listItem.textContent = `Phòng ban: ${departmentName} - Nhân viên mới: ${employeeName}`;
+            listItem.setAttribute('data-new-user', employeeName);
+        }
+
+        // Tạo nút xóa
+        var removeButton = document.createElement('button');
+        removeButton.className = 'btn btn-danger btn-sm float-end';
+        removeButton.textContent = 'Xóa';
+        removeButton.addEventListener('click', function () {
+            participantList.removeChild(listItem);
+            updateSelectedUsers();
+        });
+
+        listItem.appendChild(removeButton);
+        participantList.appendChild(listItem);
+
+        // Cập nhật giá trị trong input ẩn
+        updateSelectedUsers();
+
+        // Xóa giá trị trong textbox và dropdown
+        employeeSelect.value = '';
+        document.getElementById('employeeName').value = '';
+    });
+
+    // Hàm cập nhật danh sách selectedUsers
+    // Cập nhật danh sách khi thêm người tham dự
+    function updateSelectedUsers() {
+        var selectedUsers = [];
+        var newParticipants = [];
+        var participantList = document.getElementById('participantList');
+
+        // Lặp qua danh sách người tham dự
+        Array.from(participantList.children).forEach(function (item) {
+            var userId = item.getAttribute('data-user-id');
+            var newUserName = item.getAttribute('data-new-user');
+
+            if (userId) {
+                selectedUsers.push(userId);
+            } else if (newUserName) {
+                newParticipants.push(newUserName);
+            }
+        });
+
+        // Gán giá trị vào input ẩn
+        document.getElementById('selectedUsers').value = selectedUsers.join(',');
+        document.getElementById('newParticipants').value = newParticipants.join(',');
+    }
+
+
+    // Cập nhật danh sách nhân viên khi chọn phòng ban
+    function updateEmployees() {
+        var departmentId = document.getElementById('department').value;
+        var employeeSelect = document.getElementById('employeeSelect');
+
+        // Xóa danh sách nhân viên cũ
+        employeeSelect.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
+
+        if (departmentId) {
+            // Kích hoạt combobox nhân viên
+            employeeSelect.disabled = false;
+
+            // Gọi AJAX để lấy danh sách nhân viên
+            $.ajax({
+                url: '@Url.Action("GetEmployeesByDepartment", "ManageSchedule")',
+                type: 'GET',
+                data: { departmentId: departmentId },
+                success: function (employees) {
+                    employees.forEach(function (employee) {
+                        var option = document.createElement('option');
+                        option.value = employee.UserID;
+                        option.textContent = employee.FullName;
+                        employeeSelect.appendChild(option);
+                    });
+                },
+                error: function () {
+                    alert('Không thể lấy danh sách nhân viên.');
+                }
+            });
+        } else {
+            // Nếu chưa chọn phòng ban, vô hiệu hóa combobox nhân viên
+            employeeSelect.disabled = true;
+        }
+    }
+
+    // Vô hiệu hóa combobox nhân viên khi tải trang
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('employeeSelect').disabled = true;
+    });
+
+
+    // Xử lý thêm tài liệu đính kèm
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = ''; // Xóa danh sách hiện tại để không trùng lặp
+
+        Array.from(event.target.files).forEach((file) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.textContent = file.name;
+
+            // Tạo nút xem
+            const viewButton = document.createElement('a');
+            viewButton.className = 'btn btn-info btn-sm me-2'; // Thêm khoảng cách bên phải
+            viewButton.textContent = 'Xem';
+            viewButton.href = URL.createObjectURL(file); // Tạo URL tạm thời cho file
+            viewButton.target = '_blank'; // Mở trong tab mới
+            viewButton.download = file.name; // Tải xuống khi nhấn vào
+
+            // Tạo nút xóa
+            const removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger btn-sm';
+            removeButton.textContent = 'Xóa';
+            removeButton.addEventListener('click', function () {
+                fileList.removeChild(listItem);
+                // Cập nhật lại danh sách fileInput
+                const dataTransfer = new DataTransfer();
+                Array.from(fileList.children).forEach(item => {
+                    dataTransfer.items.add(item.file);
+                });
+                event.target.files = dataTransfer.files;
+            });
+
+            // Thêm nút vào listItem
+            listItem.appendChild(viewButton);
+            listItem.appendChild(removeButton);
+            listItem.file = file; // Lưu file vào listItem để sử dụng khi xóa
+            fileList.appendChild(listItem);
+        });
+    });
+
+    // Xử lý chọn người chủ trì
+    //$(document).ready(function () {
+    //    $("#ddlHostUser").change(function () {
+    //        // Nếu chọn từ combobox, disable textbox nhập tay
+    //        if ($(this).val()) {
+    //            $("#txtCustomHost").prop("disabled", true).val("");
+    //        } else {
+    //            $("#txtCustomHost").prop("disabled", false);
+    //        }
+    //    });
+
+    //    $("#txtCustomHost").on("input", function () {
+    //        // Nếu nhập tay, disable combobox
+    //        if ($(this).val().trim().length > 0) {
+    //            $("#ddlHostUser").prop("disabled", true);
+    //        } else {
+    //            $("#ddlHostUser").prop("disabled", false);
+    //        }
+    //    });
+    //});
+
+    document.getElementById('btnAddHost').addEventListener('click', function () {
+    var selectedHostID = document.getElementById('ddlHostUser').value;
+    var customHostName = document.getElementById('txtCustomHost').value.trim();
+
+    if (!selectedHostID && !customHostName) {
+        alert('Vui lòng chọn hoặc nhập người chủ trì.');
+        return;
+    }
+
+    if (customHostName) {
+        $.ajax({
+            url: '@Url.Action("CreateNewHost", "ManageSchedule")',
+            type: 'POST',
+            data: JSON.stringify({ FullName: customHostName }),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+
+                    // Kiểm tra nếu user đã tồn tại, cập nhật giá trị trong dropdown
+                    var existingOption = [...document.getElementById('ddlHostUser').options].find(opt => opt.text === customHostName);
+                    if (existingOption) {
+                        existingOption.value = response.newUserID;
+                        document.getElementById('ddlHostUser').value = response.newUserID;
+                    } else {
+                        // Nếu chưa có, thêm mới vào combobox
+                        var newOption = document.createElement('option');
+                        newOption.value = response.newUserID;
+                        newOption.textContent = customHostName;
+                        document.getElementById('ddlHostUser').appendChild(newOption);
+                        document.getElementById('ddlHostUser').value = response.newUserID;
+                    }
+
+                    document.getElementById('txtCustomHost').value = ''; // Xóa textbox
+                } else {
+                    alert('Lỗi khi tạo người chủ trì.');
+                }
+            },
+            error: function () {
+                alert('Không thể tạo người chủ trì.');
+            }
+        });
+    }
+});
+
+
+</script>
