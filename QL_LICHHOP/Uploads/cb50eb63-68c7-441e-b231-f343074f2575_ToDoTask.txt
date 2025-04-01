@@ -1,0 +1,12 @@
+kiểm tra nếu trùng tên người tham dự đã tồn tại trong user thì không thêm mới
+xử lý trùng userName
+
+Tìm kiếm trong db hay tìm kiếm trong tuần
+
+to do
+xử lý mở file đính kèm, user đăng nhập...
+
+
+NOTE:
+Nơi đăng ký là phòng của user, ko cho chọn
+loại lịch mặc định là sáng

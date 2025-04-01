@@ -25,6 +25,10 @@ namespace QL_LICHHOP.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.FullName == fullName);
         }
+        public List<User> SearchUser(int departmentId, string keyword)
+        {
+            return _context.Users.Where(u => u.DepartmentID == departmentId && u.FullName.Contains(keyword)).ToList();
+        }
         public User AddNewHost(string fullName)
         {
             User user = new User

@@ -150,6 +150,8 @@ namespace QL_LICHHOP.Models
 		
 		private EntitySet<User> _Users;
 		
+		private EntitySet<MeetingParticipant> _MeetingParticipants;
+		
 		private EntitySet<Meeting> _Meetings;
 		
     #region Extensibility Method Definitions
@@ -165,6 +167,7 @@ namespace QL_LICHHOP.Models
 		public Department()
 		{
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._MeetingParticipants = new EntitySet<MeetingParticipant>(new Action<MeetingParticipant>(this.attach_MeetingParticipants), new Action<MeetingParticipant>(this.detach_MeetingParticipants));
 			this._Meetings = new EntitySet<Meeting>(new Action<Meeting>(this.attach_Meetings), new Action<Meeting>(this.detach_Meetings));
 			OnCreated();
 		}
@@ -222,6 +225,19 @@ namespace QL_LICHHOP.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_MeetingParticipant", Storage="_MeetingParticipants", ThisKey="DepartmentID", OtherKey="DepartmentID")]
+		public EntitySet<MeetingParticipant> MeetingParticipants
+		{
+			get
+			{
+				return this._MeetingParticipants;
+			}
+			set
+			{
+				this._MeetingParticipants.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Meeting", Storage="_Meetings", ThisKey="DepartmentID", OtherKey="DepartmentID")]
 		public EntitySet<Meeting> Meetings
 		{
@@ -262,6 +278,18 @@ namespace QL_LICHHOP.Models
 		}
 		
 		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Department = null;
+		}
+		
+		private void attach_MeetingParticipants(MeetingParticipant entity)
+		{
+			this.SendPropertyChanging();
+			entity.Department = this;
+		}
+		
+		private void detach_MeetingParticipants(MeetingParticipant entity)
 		{
 			this.SendPropertyChanging();
 			entity.Department = null;
@@ -942,6 +970,10 @@ namespace QL_LICHHOP.Models
 		
 		private System.Nullable<System.DateTime> _CreatedAt;
 		
+		private string _UpdatedBy;
+		
+		private System.Nullable<System.DateTime> _UpdatedAt;
+		
 		private EntityRef<User> _User;
 		
 		private EntityRef<Meeting> _Meeting;
@@ -960,6 +992,10 @@ namespace QL_LICHHOP.Models
     partial void OnCreatedByChanged();
     partial void OnCreatedAtChanging(System.Nullable<System.DateTime> value);
     partial void OnCreatedAtChanged();
+    partial void OnUpdatedByChanging(string value);
+    partial void OnUpdatedByChanged();
+    partial void OnUpdatedAtChanging(System.Nullable<System.DateTime> value);
+    partial void OnUpdatedAtChanged();
     #endregion
 		
 		public MeetingHost()
@@ -1077,6 +1113,46 @@ namespace QL_LICHHOP.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedBy", DbType="NVarChar(255)")]
+		public string UpdatedBy
+		{
+			get
+			{
+				return this._UpdatedBy;
+			}
+			set
+			{
+				if ((this._UpdatedBy != value))
+				{
+					this.OnUpdatedByChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedBy = value;
+					this.SendPropertyChanged("UpdatedBy");
+					this.OnUpdatedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedAt", DbType="DateTime")]
+		public System.Nullable<System.DateTime> UpdatedAt
+		{
+			get
+			{
+				return this._UpdatedAt;
+			}
+			set
+			{
+				if ((this._UpdatedAt != value))
+				{
+					this.OnUpdatedAtChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedAt = value;
+					this.SendPropertyChanged("UpdatedAt");
+					this.OnUpdatedAtChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_MeetingHost", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
@@ -1176,7 +1252,9 @@ namespace QL_LICHHOP.Models
 		
 		private int _MeetingID;
 		
-		private int _UserID;
+		private System.Nullable<int> _UserID;
+		
+		private System.Nullable<int> _DepartmentID;
 		
 		private string _Note;
 		
@@ -1187,6 +1265,8 @@ namespace QL_LICHHOP.Models
 		private string _UpdatedBy;
 		
 		private System.Nullable<System.DateTime> _UpdatedAt;
+		
+		private EntityRef<Department> _Department;
 		
 		private EntityRef<User> _User;
 		
@@ -1200,8 +1280,10 @@ namespace QL_LICHHOP.Models
     partial void OnIDChanged();
     partial void OnMeetingIDChanging(int value);
     partial void OnMeetingIDChanged();
-    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanging(System.Nullable<int> value);
     partial void OnUserIDChanged();
+    partial void OnDepartmentIDChanging(System.Nullable<int> value);
+    partial void OnDepartmentIDChanged();
     partial void OnNoteChanging(string value);
     partial void OnNoteChanged();
     partial void OnCreatedByChanging(string value);
@@ -1216,6 +1298,7 @@ namespace QL_LICHHOP.Models
 		
 		public MeetingParticipant()
 		{
+			this._Department = default(EntityRef<Department>);
 			this._User = default(EntityRef<User>);
 			this._Meeting = default(EntityRef<Meeting>);
 			OnCreated();
@@ -1265,8 +1348,8 @@ namespace QL_LICHHOP.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int NOT NULL")]
-		public int UserID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
+		public System.Nullable<int> UserID
 		{
 			get
 			{
@@ -1285,6 +1368,30 @@ namespace QL_LICHHOP.Models
 					this._UserID = value;
 					this.SendPropertyChanged("UserID");
 					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentID", DbType="Int")]
+		public System.Nullable<int> DepartmentID
+		{
+			get
+			{
+				return this._DepartmentID;
+			}
+			set
+			{
+				if ((this._DepartmentID != value))
+				{
+					if (this._Department.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDepartmentIDChanging(value);
+					this.SendPropertyChanging();
+					this._DepartmentID = value;
+					this.SendPropertyChanged("DepartmentID");
+					this.OnDepartmentIDChanged();
 				}
 			}
 		}
@@ -1389,6 +1496,40 @@ namespace QL_LICHHOP.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_MeetingParticipant", Storage="_Department", ThisKey="DepartmentID", OtherKey="DepartmentID", IsForeignKey=true)]
+		public Department Department
+		{
+			get
+			{
+				return this._Department.Entity;
+			}
+			set
+			{
+				Department previousValue = this._Department.Entity;
+				if (((previousValue != value) 
+							|| (this._Department.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Department.Entity = null;
+						previousValue.MeetingParticipants.Remove(this);
+					}
+					this._Department.Entity = value;
+					if ((value != null))
+					{
+						value.MeetingParticipants.Add(this);
+						this._DepartmentID = value.DepartmentID;
+					}
+					else
+					{
+						this._DepartmentID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Department");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_MeetingParticipant", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
@@ -1416,7 +1557,7 @@ namespace QL_LICHHOP.Models
 					}
 					else
 					{
-						this._UserID = default(int);
+						this._UserID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User");
 				}
@@ -1498,6 +1639,10 @@ namespace QL_LICHHOP.Models
 		
 		private System.DateTime _StartTime;
 		
+		private System.Nullable<System.DateTime> _OldDate;
+		
+		private System.Nullable<System.DateTime> _NewDate;
+		
 		private int _DurationMinutes;
 		
 		private string _Location;
@@ -1544,6 +1689,10 @@ namespace QL_LICHHOP.Models
     partial void OnScheduleTypeChanged();
     partial void OnStartTimeChanging(System.DateTime value);
     partial void OnStartTimeChanged();
+    partial void OnOldDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnOldDateChanged();
+    partial void OnNewDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnNewDateChanged();
     partial void OnDurationMinutesChanging(int value);
     partial void OnDurationMinutesChanged();
     partial void OnLocationChanging(string value);
@@ -1718,6 +1867,46 @@ namespace QL_LICHHOP.Models
 					this._StartTime = value;
 					this.SendPropertyChanged("StartTime");
 					this.OnStartTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OldDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> OldDate
+		{
+			get
+			{
+				return this._OldDate;
+			}
+			set
+			{
+				if ((this._OldDate != value))
+				{
+					this.OnOldDateChanging(value);
+					this.SendPropertyChanging();
+					this._OldDate = value;
+					this.SendPropertyChanged("OldDate");
+					this.OnOldDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NewDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> NewDate
+		{
+			get
+			{
+				return this._NewDate;
+			}
+			set
+			{
+				if ((this._NewDate != value))
+				{
+					this.OnNewDateChanging(value);
+					this.SendPropertyChanging();
+					this._NewDate = value;
+					this.SendPropertyChanged("NewDate");
+					this.OnNewDateChanged();
 				}
 			}
 		}

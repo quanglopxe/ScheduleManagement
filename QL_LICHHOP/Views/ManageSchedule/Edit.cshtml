@@ -1,8 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var users = ViewBag.Users as List<QL_LICHHOP.Models.User>; // Ép kiểu danh sách người dùng
+    var departments = ViewBag.Departments as List<QL_LICHHOP.Models.Department>; // Ép kiểu danh sách phòng ban
 }
+
 @model QL_LICHHOP.ViewModels.MeetingViewModel
 <style>
     .form-control, .form-select {
@@ -15,6 +18,7 @@
             border-color: #0056b3; /* Màu viền khi có tiêu điểm */
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Hiệu ứng bóng */
         }
+
     #employeeSuggestions {
         background-color: #f1f1f1; /* Màu nền xám */
         border: 1px solid #ccc; /* Viền nhẹ */
@@ -33,72 +37,68 @@
             background-color: #e0e0e0; /* Màu nền khi rê chuột vào */
         }
 </style>
-@using (Html.BeginForm("Create", "ManageSchedule", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("Edit", "ManageSchedule", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MeetingID)
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nơi đăng ký</label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Nơi đăng ký</label>
         <div class="col-md-2">
-            @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "DepartmentID", "DepartmentName"), new { @class = "form-select" })
+            @Html.DropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.Departments, "DepartmentID", "DepartmentName", Model.DepartmentId), "", new { @class = "form-select" })
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Lịch làm việc của <span style="color: red">(*)</span></label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Lịch làm việc của <span style="color: red">(*)</span></label>
         <div class="col-md-3">
-            @Html.DropDownList("ScheduleTypeID", new SelectList(ViewBag.ScheduleTypes, "ScheduleTypeID", "Name"), new { @class = "form-select" })
+            @Html.DropDownListFor(m => m.ScheduleTypeID, new SelectList(ViewBag.ScheduleTypes, "ScheduleTypeID", "Name", Model.ScheduleTypeID), "", new { @class = "form-select" })
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Loại lịch <span style="color: red">(*)</span></label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Loại lịch <span style="color: red">(*)</span></label>
         <div class="col-md-2">
             @Html.DropDownListFor(m => m.ScheduleType, new SelectList(new List<SelectListItem>
             {
                 new SelectListItem { Value = "Sáng", Text = "Sáng" },
                 new SelectListItem { Value = "Chiều", Text = "Chiều" },
                 new SelectListItem { Value = "Cả ngày", Text = "Cả ngày" }
-            }, "Value", "Text"), "", new { @class = "form-select", required = "required" })
+            }, "Value", "Text", Model.ScheduleType), "", new { @class = "form-select", required = "required" })
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-1 col-form-label">Thời gian <span style="color: red">(*)</span></label>
+        <label class="col-md-1 col-form-label" style="background-color: lightblue; text-align: right">Thời gian <span style="color: red">(*)</span></label>
         <div class="col-md-2">
             <input type="datetime-local" id="StartTime" name="StartTime"
                    class="form-control"
                    required="required"
                    value="@((Model.StartTime.HasValue) ? Model.StartTime.Value.ToString("yyyy-MM-ddTHH:mm") : DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))" />
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Thời gian họp dự kiến (phút)</label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Thời gian họp dự kiến (phút)</label>
         <div class="col-md-2">
-            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", required = "required", min = "0" })
+            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", required = "required", min = "0", value = Model.DurationMinutes })
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Người chủ trì</label>
-
-        <!-- Combobox chọn người chủ trì từ danh sách -->
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Người chủ trì</label>
         <div class="col-md-2">
-            @Html.DropDownList("HostUserID", new SelectList(ViewBag.Hosts, "UserID", "FullName"), "-- Chọn người chủ trì --", new { @class = "form-select", id = "ddlHostUser" })
+            @Html.DropDownListFor(m => m.HostUserID, new SelectList(ViewBag.Hosts, "UserID", "FullName", Model.HostUserID), "-- Chọn người chủ trì --", new { @class = "form-select", required = "required" })
         </div>
-
-        <!-- Ô nhập liệu nếu muốn nhập người chủ trì khác -->
         <div class="col-md-3">
             <input type="text" id="txtCustomHost" class="form-control" placeholder="Nhập người chủ trì khác..." />
         </div>
-
-        <!-- Nút thêm người chủ trì -->
         <div class="col-md-2">
             <button id="btnAddHost" type="button" class="btn btn-primary">Thêm mới người chủ trì</button>
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nội dung <span style="color: red">(*)</span></label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Nội dung <span style="color: red">(*)</span></label>
         <div class="col-md-9">
             @Html.TextBoxFor(m => m.Title, new { @class = "form-control", required = "required" })
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Địa điểm</label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Địa điểm</label>
         <div class="col-md-9">
             @Html.TextBoxFor(m => m.Location, new { @class = "form-control", required = "required" })
         </div>
@@ -131,10 +131,27 @@
         <div class="col-md-2"></div>
         <div class="col-md-9">
             <input type="hidden" id="employeeID" value="" />
-            <ul id="participantList" class="list-group"></ul>
+            <ul id="participantList" class="list-group">
+                @for (int i = 0; i < Model.Participants.Count; i++)
+                {
+                    var participant = Model.Participants[i];
+                    <li class="list-group-item" data-user-id="@participant.UserID" data-department-id="@participant.DepartmentID">
+                        @if (participant.UserID > 0)
+                        {
+                            <span>@participant.DepartmentName - @participant.FullName</span>
+                        }
+                        else
+                        {
+                            <span>@participant.DepartmentName</span>
+                        }
+                        <input type="hidden" name="Participants[@i].DepartmentID" value="@participant.DepartmentID" />
+                        <input type="hidden" name="Participants[@i].UserID" value="@participant.UserID" />
+                        <button class="btn btn-danger btn-sm float-end remove-participant">Xóa</button>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
-
 
     <div class="form-group row mt-2">
         <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Phương tiện</label>
@@ -156,26 +173,37 @@
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Đính kèm tài liệu họp</label>
+        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">Đính kèm tài liệu</label>
         <div class="col-md-9">
             <input type="file" id="fileInput" name="Attachments" multiple class="form-control" />
         </div>
     </div>
+    <input type="hidden" id="existingFiles" name="ExistingAttachments" value="@string.Join(",", Model.AttachmentPaths)" />
 
     <div class="form-group row mt-2">
         <div class="col-md-2" style="background-color: lightblue"></div>
         <div class="col-md-9">
             <ul id="fileList" class="list-group">
-                <!-- Danh sách tài liệu sẽ được thêm vào đây -->
+                @foreach (var filePath in Model.AttachmentPaths)
+                {
+                    var fileName = System.IO.Path.GetFileName(filePath);
+                    <li class="list-group-item">
+                        @fileName.Substring(fileName.IndexOf('_') + 1)
+                        <a href="@Url.Action("DownloadFile", "ManageSchedule", new { fileName = fileName })" target="_blank">
+                            Tải xuống
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
 
-    <center><button id="addMeeting" type="submit" class="btn btn-primary">Thêm lịch họp</button></center>
+
+
+    <center><button type="submit" class="btn btn-primary">Cập nhật lịch họp</button></center>
 }
 
 <script>
-    // Xử lý thêm người tham dự
     document.getElementById('addParticipant').addEventListener('click', function () {
         var departmentSelect = document.getElementById('department');
         var departmentID = departmentSelect.value;
@@ -191,6 +219,9 @@
         var participantList = document.getElementById('participantList');
         var listItem = document.createElement('li');
         listItem.className = 'list-group-item';
+        listItem.dataset.userId = userID || '0'; // Lưu UserID vào thuộc tính dữ liệu
+        listItem.dataset.departmentId = departmentID || ''; // Lưu DepartmentID vào thuộc tính dữ liệu
+
         if (departmentID && employeeName) {
             listItem.textContent = departmentName + ' - ' + employeeName;
         } else {
@@ -227,7 +258,15 @@
         document.getElementById('employeeID').value = ''; // Reset UserID
     });
 
-    
+    // Sự kiện cho nút xóa đã tồn tại
+    document.querySelectorAll('.remove-participant').forEach(button => {
+        button.addEventListener('click', function () {
+            var listItem = button.parentElement;
+            participantList.removeChild(listItem);
+        });
+    });
+
+
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('employeeName').addEventListener('keyup', suggestEmployees);
@@ -287,35 +326,36 @@
             listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             listItem.textContent = file.name;
 
-            // Tạo nút xem
+            // Nút xem file
             const viewButton = document.createElement('a');
-            viewButton.className = 'btn btn-info btn-sm me-2'; // Thêm khoảng cách bên phải
+            viewButton.className = 'btn btn-info btn-sm me-2';
             viewButton.textContent = 'Xem';
-            viewButton.href = URL.createObjectURL(file); // Tạo URL tạm thời cho file
-            viewButton.target = '_blank'; // Mở trong tab mới
-            viewButton.download = file.name; // Tải xuống khi nhấn vào
+            viewButton.href = URL.createObjectURL(file);
+            viewButton.target = '_blank';
 
-            // Tạo nút xóa
+            // Nút xóa file
             const removeButton = document.createElement('button');
             removeButton.className = 'btn btn-danger btn-sm';
             removeButton.textContent = 'Xóa';
             removeButton.addEventListener('click', function () {
                 fileList.removeChild(listItem);
-                // Cập nhật lại danh sách fileInput
-                const dataTransfer = new DataTransfer();
-                Array.from(fileList.children).forEach(item => {
-                    dataTransfer.items.add(item.file);
-                });
-                event.target.files = dataTransfer.files;
             });
 
-            // Thêm nút vào listItem
+            // Thêm vào danh sách
             listItem.appendChild(viewButton);
             listItem.appendChild(removeButton);
-            listItem.file = file; // Lưu file vào listItem để sử dụng khi xóa
             fileList.appendChild(listItem);
         });
     });
+
+    // Khi submit, nếu không có file mới, giữ lại file cũ
+    document.querySelector('form').addEventListener('submit', function () {
+        if (document.getElementById('fileInput').files.length === 0) {
+            document.getElementById('fileInput').disabled = true;
+        }
+    });
+
+
 
     // Xử lý chọn người chủ trì
     //$(document).ready(function () {

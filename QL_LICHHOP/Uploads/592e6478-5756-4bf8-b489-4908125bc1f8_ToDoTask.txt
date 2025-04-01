@@ -1,0 +1,26 @@
+Tìm kiếm trong db hay tìm kiếm trong tuần (tính sau)
+
+to do
+xử lý mở file đính kèm, user đăng nhập...
+
+
+NOTE:
+Nơi đăng ký là phòng của user, ko cho chọn
+loại lịch mặc định là sáng
+lịch làm việc của mặc định là lịch chi cục
+nội dung kéo xuống 2 dòng
+sửa nút xem file cố định
+đặt tên thêm lịch họp = Lưu
+bỏ chữ không có cuộc họp
+thay xóa lịch = không duyệt
+hiển thị tên file thay cho tải xuống
+
+để biểu tượng thêm xích lên
+
+chọn thêm lịch ngày nào thì set mặc định ngày đó
+trang chủ = đăng ký lịch
+
+bổ sung background tab để biết đang ở tab nào
+
+sửa màu của các tab đăng ký lợt hơn
+sửa lại danh sách người tham dự chỉ hiển thị tên phòng ban và tên nhân viên

@@ -1,5 +1,4 @@
-﻿using QL_LICHHOP.Models;
-using QL_LICHHOP.Repositories;
+﻿using QL_LICHHOP.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,12 +8,12 @@ using System.Web.Mvc;
 
 namespace QL_LICHHOP.Controllers
 {
-    public class ExpectedScheduleController : Controller
+    public class OfficialScheduleController : Controller
     {
+        // GET: OfficialSchedule
         MeetingRepository meetingRepository = new MeetingRepository();
         DepartmentRepository departmentRepository = new DepartmentRepository();
-        ScheduleTypeRepository scheduleTypeRepository = new ScheduleTypeRepository();
-        // GET: ExpectedSchedule
+        ScheduleTypeRepository scheduleTypeRepository = new ScheduleTypeRepository();        
         public ActionResult Index(DateTime? selectedDate, string scheduleName, string registerer, string host, string status)
         {
             DateTime currentDate = selectedDate ?? DateTime.Today;
@@ -46,8 +45,8 @@ namespace QL_LICHHOP.Controllers
             ViewBag.WeekNumber = weekNumber;
             ViewBag.SelectedDate = currentDate;
             ViewBag.ScheduleType = scheduleTypeRepository.GetScheduleTypes();
-            // Lấy danh sách lịch họp dự kiến trong tuần                        
-            var schedules = meetingRepository.GenerateWeeklySchedule(startOfWeek, endOfWeek, new List<string> { "Chờ duyệt", "Không duyệt" });
+            // Lấy danh sách lịch họp dự kiến trong tuần            
+            var schedules = meetingRepository.GenerateWeeklySchedule(startOfWeek, endOfWeek, new List<string> {"Đã duyệt", "Đã hoãn", "Đã dời"});
 
             // Lọc theo các tiêu chí tìm kiếm nếu có
             if (!string.IsNullOrEmpty(scheduleName))
@@ -84,10 +83,5 @@ namespace QL_LICHHOP.Controllers
 
             return View(schedules);
         }
-
-
-
-
-
     }
 }

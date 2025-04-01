@@ -8,6 +8,7 @@ namespace QL_LICHHOP.ViewModels
 {
     public class MeetingViewModel
     {
+        public int MeetingID { get; set; }
         [Required]
         public string Title { get; set; }        
         public string RegistrationPlace { get; set; }
@@ -17,7 +18,7 @@ namespace QL_LICHHOP.ViewModels
         [Required]
         public string ScheduleType { get; set; }
         [Required]
-        public string StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         [Required]
         public int DurationMinutes { get; set; }
         public string Location { get; set; }
@@ -26,7 +27,9 @@ namespace QL_LICHHOP.ViewModels
         //public string Status { get; set; }        
 
         public int HostUserID { get; set; }  // Người chủ trì cuộc họp
-        public List<int> ParticipantUserIDs { get; set; }  // Danh sách người tham gia
+        public List<MeetingParticipantViewModel> Participants { get; set; } = new List<MeetingParticipantViewModel>();
+
         public List<HttpPostedFileBase> Attachments { get; set; }  // Danh sách file đính kèm
+        public List<string> AttachmentPaths { get; set; }
     }
 }

@@ -3,7 +3,10 @@ using QL_LICHHOP.Repositories;
 using QL_LICHHOP.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,34 +24,60 @@ namespace QL_LICHHOP.Controllers
         {
             return View();
         }
-        public ActionResult Create()
+        public ActionResult Create(DateTime? date)
         {
             ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
             ViewBag.Departments = departmentRepository.GetDepartments();
             ViewBag.Hosts = userRepository.GetHosts();
-            
-            return View();
+            MeetingViewModel model = new MeetingViewModel
+            {
+                ScheduleType = "Sáng",
+                StartTime = date,
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(MeetingViewModel newMeeting, string selectedUsers, string newParticipants, int selectedDepartment)
-        {
+        public ActionResult Create(MeetingViewModel newMeeting, string newParticipants)
+        {            
             if (ModelState.IsValid)
-            {
-                // Chuyển đổi selectedUsers từ string sang danh sách
-                var userIds = !string.IsNullOrEmpty(selectedUsers) ? selectedUsers.Split(',').Select(int.Parse).ToList() : new List<int>();
+            {                
+                // Chuyển đổi newParticipants từ string sang List<string>
+                var newParticipantsList = !string.IsNullOrEmpty(newParticipants)
+                    ? newParticipants.Split(',').ToList()
+                    : new List<string>();
 
-                // Chuyển đổi newParticipants từ string sang danh sách
-                var newParticipantsList = !string.IsNullOrEmpty(newParticipants) ? newParticipants.Split(',').ToList() : new List<string>();
+                // Gửi dữ liệu vào repository
+                meetingRepository.AddMeeting(newMeeting, newParticipantsList);
 
-                meetingRepository.AddMeeting(newMeeting, newParticipantsList, userIds, selectedDepartment);
                 return RedirectToAction("Index");
             }
 
+            // Ghi log lỗi nếu có
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
+            // Load lại dữ liệu cho dropdowns
             ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
+            ViewBag.Departments = departmentRepository.GetDepartments();
+            ViewBag.Hosts = userRepository.GetHosts();
+
             return View(newMeeting);
         }
+
+        public JsonResult SearchEmployees(int departmentId, string query)
+        {
+            var employees = userRepository.SearchUser(departmentId, query)
+                .Select(e => new { e.UserID, e.FullName }) // Chọn các trường cần thiết
+                .ToList();
+
+            return Json(employees, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult GetEmployeesByDepartment(int departmentId)
         {
@@ -83,48 +112,119 @@ namespace QL_LICHHOP.Controllers
                 return Json(new { success = true, newUserID = newUser.UserID, message = "Đã thêm người chủ trì mới." }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult Edit(int id)
+        {
+            var meeting = meetingRepository.GetMeetingById(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            var users = userRepository.GetAllUsers();
+            ViewBag.Users = users;
 
-        //public ActionResult Edit(int id)
-        //{
-        //    var meeting = meetingRepository.GetMeetingById(id);
-        //    if (meeting == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
-        //    return View(meeting);
-        //}
+            ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
+            ViewBag.Departments = departmentRepository.GetDepartments();
+            ViewBag.Hosts = userRepository.GetHosts();            
+            ViewBag.MeetingHosts = meetingRepository.GetMeetingHosts(id);
+            return View(meeting);
+        }
 
-        //// Xử lý chỉnh sửa lịch họp
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(Meeting updatedMeeting)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        meetingRepository.UpdateMeeting(updatedMeeting);
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
-        //    return View(updatedMeeting);
-        //}
-        //public ActionResult Delete(int id)
-        //{
-        //    var meeting = meetingRepository.GetMeetingById(id);
-        //    if (meeting == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(meeting);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(MeetingViewModel updatedMeeting, string newParticipants, string ExistingAttachments)
+        {
+            if (ModelState.IsValid)
+            {                
+                var newParticipantsList = !string.IsNullOrEmpty(newParticipants) ? newParticipants.Split(',').ToList() : new List<string>();
 
-        //// Xử lý xóa lịch họp
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ConfirmDelete(int id)
-        //{
-        //    meetingRepository.DeleteMeeting(id);
-        //    return RedirectToAction("Index");
-        //}
+                // Lấy file mới từ Request.Files
+                List<HttpPostedFileBase> uploadedFiles = new List<HttpPostedFileBase>();
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        uploadedFiles.Add(file);
+                    }
+                }
+
+                // Nếu không có file mới, giữ lại file cũ
+                if (uploadedFiles.Count == 0 && !string.IsNullOrEmpty(ExistingAttachments))
+                {
+                    updatedMeeting.AttachmentPaths = ExistingAttachments.Split(',').ToList();
+                }
+
+                updatedMeeting.Attachments = uploadedFiles;
+
+                meetingRepository.UpdateMeeting(updatedMeeting, newParticipantsList);
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
+            ViewBag.Departments = departmentRepository.GetDepartments();
+            return View(updatedMeeting);
+        }
+
+        public ActionResult DownloadFile(string fileName)
+        {
+            string filePath = Path.Combine(Server.MapPath("~/Uploads/"), fileName); // Đường dẫn tới file
+            if (!System.IO.File.Exists(filePath))
+            {
+                return HttpNotFound(); // Trả về lỗi nếu file không tồn tại
+            }
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
+        
+        public ActionResult ApproveMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
+        {
+            var meeting = meetingRepository.ApproveSchedule(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }            
+            // Lưu thông báo vào TempData
+            TempData["SuccessMessage"] = "Duyệt thành công!";
+            
+            // Chuyển hướng về trang hiện tại với các tham số
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
+        public ActionResult RejectMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
+        {
+            var meeting = meetingRepository.RejectSchedule(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["SuccessMessage"] = "Không duyệt!";
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
+        public ActionResult PostponeMeeting(int id, DateTime? selectedDates, string currentAction, string currentController, string newDate)
+        {
+            DateTime parsedDate;
+            if (!DateTime.TryParseExact(newDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+            {
+                return new HttpStatusCodeResult(400, "Định dạng ngày không hợp lệ.");
+            }
+            var meeting = meetingRepository.PostponeSchedule(id, parsedDate);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["SuccessMessage"] = "Dời cuộc họp thành công!";
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
+        public ActionResult CancelMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
+        {
+            var meeting = meetingRepository.CancelSchedule(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["SuccessMessage"] = "Hoãn cuộc họp thành công!";
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
     }
 }

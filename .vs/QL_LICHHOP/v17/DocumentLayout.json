@@ -3,48 +3,68 @@
   "WorkspaceRootPath": "G:\\QL_LICHHOP\\QL_LICHHOP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\controllers\\manageschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\controllers\\manageschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\repositories\\meetingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\meetingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\views\\manageschedule\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\manageschedule\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\viewmodels\\meetingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\viewmodels\\meetingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\views\\manageschedule\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\manageschedule\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\repositories\\meetingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\meetingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\views\\expectedschedule\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\views\\expectedschedule\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\expectedschedule\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\controllers\\expectedschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\views\\officialschedule\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\officialschedule\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\controllers\\officialschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\controllers\\officialschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|g:\\ql_lichhop\\ql_lichhop\\ql_lichhop\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\models\\meetingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\models\\meetingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\controllers\\expectedschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\controllers\\expectedschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\models\\meetingschedule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\models\\meetingschedule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\repositories\\hostrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\hostrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\views\\manageschedule\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\views\\manageschedule\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\viewmodels\\meetingparticipantviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\viewmodels\\meetingparticipantviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\repositories\\scheduletyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\scheduletyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\models\\meetingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\models\\meetingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\repositories\\hostrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|solutionrelative:ql_lichhop\\repositories\\hostrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9AECC483-5458-432F-93D3-51376184E3FB}|QL_LICHHOP\\QL_LICHHOP.csproj|G:\\QL_LICHHOP\\QL_LICHHOP\\ql_lichhop\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
@@ -66,115 +86,180 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MeetingRepository.cs",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\MeetingRepository.cs",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\MeetingRepository.cs",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\MeetingRepository.cs",
-              "RelativeToolTip": "QL_LICHHOP\\Repositories\\MeetingRepository.cs",
-              "ViewState": "AQIAAHcAAAAAAAAAAAAnwKcAAAA5AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-28T06:06:12.143Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\UserRepository.cs",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "QL_LICHHOP\\Repositories\\UserRepository.cs",
-              "ViewState": "AQIAABcAAAAAAAAAAAAewCMAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-30T03:59:43.611Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
-              "RelativeToolTip": "QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
-              "ViewState": "AQIAADsAAAAAAAAAAADwv1sAAABRAAAA",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "QL_LICHHOP\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-30T03:27:29.148Z",
+              "WhenOpened": "2025-04-01T13:46:43.53Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "Index.cshtml",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\OfficialSchedule\\Index.cshtml",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\OfficialSchedule\\Index.cshtml",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\OfficialSchedule\\Index.cshtml",
+              "RelativeToolTip": "QL_LICHHOP\\Views\\OfficialSchedule\\Index.cshtml",
+              "ViewState": "AQIAAKcAAAAAAAAAAAAAALYAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-01T11:36:11.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OfficialScheduleController.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\OfficialScheduleController.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Controllers\\OfficialScheduleController.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\OfficialScheduleController.cs",
+              "RelativeToolTip": "QL_LICHHOP\\Controllers\\OfficialScheduleController.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAtwDAAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T10:46:42.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MeetingParticipantViewModel.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingParticipantViewModel.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\ViewModels\\MeetingParticipantViewModel.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingParticipantViewModel.cs",
+              "RelativeToolTip": "QL_LICHHOP\\ViewModels\\MeetingParticipantViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T05:49:58.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Edit.cshtml",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\ManageSchedule\\Edit.cshtml",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Edit.cshtml",
+              "RelativeToolTip": "QL_LICHHOP\\Views\\ManageSchedule\\Edit.cshtml",
+              "ViewState": "AQIAAE4BAAAAAAAAAADwv2QBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T03:18:45.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MeetingRepository.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\MeetingRepository.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\MeetingRepository.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\MeetingRepository.cs",
+              "RelativeToolTip": "QL_LICHHOP\\Repositories\\MeetingRepository.cs",
+              "ViewState": "AQIAAJsBAAAAAAAAAAAYwLABAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-28T06:06:12.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\UserRepository.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "QL_LICHHOP\\Repositories\\UserRepository.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAiwBsAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-30T03:59:43.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
+              "RelativeToolTip": "QL_LICHHOP\\Views\\ManageSchedule\\Create.cshtml",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAACEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-30T03:27:29.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ExpectedSchedule\\Index.cshtml",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\ExpectedSchedule\\Index.cshtml",
               "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\ExpectedSchedule\\Index.cshtml",
               "RelativeToolTip": "QL_LICHHOP\\Views\\ExpectedSchedule\\Index.cshtml",
-              "ViewState": "AQIAAGcAAAAAAAAAAADwv54AAABBAAAA",
+              "ViewState": "AQIAAO0AAAAAAAAAAAAAAP8AAABIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-03-30T13:23:33.517Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MeetingSchedule.cs",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Models\\MeetingSchedule.cs",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\Models\\MeetingSchedule.cs",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Models\\MeetingSchedule.cs",
-              "RelativeToolTip": "QL_LICHHOP\\Models\\MeetingSchedule.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAD4vwwAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-28T07:49:15.484Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ManageScheduleController.cs",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
-              "RelativeToolTip": "QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAAwCwAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-29T11:19:03.666Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MeetingViewModel.cs",
-              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
-              "RelativeDocumentMoniker": "QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
-              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
-              "RelativeToolTip": "QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAuwAwAAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-29T11:36:58.489Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ExpectedScheduleController.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ExpectedScheduleController.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Controllers\\ExpectedScheduleController.cs",
               "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ExpectedScheduleController.cs",
               "RelativeToolTip": "QL_LICHHOP\\Controllers\\ExpectedScheduleController.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAnwC8AAAAMAAAA",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAwwBEAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-30T13:24:04.41Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
+              "Title": "_Header.cshtml",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\Shared\\_Header.cshtml",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Views\\Shared\\_Header.cshtml",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Views\\Shared\\_Header.cshtml",
+              "RelativeToolTip": "QL_LICHHOP\\Views\\Shared\\_Header.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-31T04:53:29.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ManageScheduleController.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
+              "RelativeToolTip": "QL_LICHHOP\\Controllers\\ManageScheduleController.cs",
+              "ViewState": "AQIAAHsAAAAAAAAAAADwv4YAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T11:19:03.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MeetingViewModel.cs",
+              "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
+              "RelativeDocumentMoniker": "QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
+              "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
+              "RelativeToolTip": "QL_LICHHOP\\ViewModels\\MeetingViewModel.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAuwAgAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T11:36:58.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "ScheduleTypeRepository.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\ScheduleTypeRepository.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\ScheduleTypeRepository.cs",
@@ -187,7 +272,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "HostRepository.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Repositories\\HostRepository.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Repositories\\HostRepository.cs",
@@ -200,20 +285,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "MeetingDTO.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Models\\MeetingDTO.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Models\\MeetingDTO.cs",
               "ToolTip": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Models\\MeetingDTO.cs",
               "RelativeToolTip": "QL_LICHHOP\\Models\\MeetingDTO.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAYwBEAAAA4AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-28T08:37:34.538Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Web.config",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Web.config",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Web.config",
@@ -226,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "HomeController.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\Controllers\\HomeController.cs",
@@ -239,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "RouteConfig.cs",
               "DocumentMoniker": "G:\\QL_LICHHOP\\QL_LICHHOP\\QL_LICHHOP\\App_Start\\RouteConfig.cs",
               "RelativeDocumentMoniker": "QL_LICHHOP\\App_Start\\RouteConfig.cs",

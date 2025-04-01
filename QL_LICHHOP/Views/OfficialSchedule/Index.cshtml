@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var successMessage = ViewBag.SuccessMessage as string;
 }
+
 @model List<QL_LICHHOP.Models.MeetingSchedule>
 <style>
     #successAlert {
@@ -16,7 +17,7 @@
 @if (!string.IsNullOrEmpty(successMessage))
 {
     <div id="successAlert" class="alert alert-success alert-dismissible" role="alert">
-        @successMessage        
+        @successMessage
     </div>
 }
 <form method="get" action="@Url.Action("Index")" class="p-3 border rounded">
@@ -79,7 +80,7 @@
     </div>
 </form>
 <br />
-<center><h3 style="color: blue">LỊCH DỰ KIẾN TRONG TUẦN</h3></center>
+<center><h3 style="color: blue">LỊCH CHÍNH THỨC TRONG TUẦN</h3></center>
 <div style="text-align: center; margin-bottom: 20px;">
     <form method="get" action="@Url.Action("Index")">
         <input type="date" id="selectedDate" name="selectedDate"
@@ -158,7 +159,23 @@
                             <div><strong>Phòng ban đăng ký:</strong> @morning.RegistrationPlace</div>
                             <div><strong>Người đăng ký:</strong> @morning.CreatedBy</div>
                             <div><strong>Loại lịch:</strong><span style="color:red"> @morning.ScheduleName</span></div>
-                            <div><strong>Tình trạng:</strong><span style="color:seagreen"> @morning.Status</span></div>
+                            <div>
+                                <strong>Tình trạng:</strong>
+                                <span style="color:seagreen">
+                                    @if (morning.Status == "Đã hoãn")
+                                    {
+                                        <span class="blinking-icon">Đã hoãn 🟡</span>
+                                    }
+                                    else if (morning.Status == "Đã dời")
+                                    {
+                                        <span>Đã dời từ ngày @morning.OldDate sang ngày @morning.NewDate</span>
+                                    }
+                                    else
+                                    {
+                                        @morning.Status
+                                    }
+                                </span>
+                            </div>
 
                             if (morning.AttachmentUrls.Count > 0)
                             {
@@ -186,15 +203,43 @@
                                 <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = morning.MeetingID})" class="icon-link" title="Chỉnh sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
+                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Duyệt lịch">
                                     <i class="bi bi-calendar2-check"></i>
                                 </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
+                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
                                     <i class="bi bi-calendar2-x"></i>
                                 </a>
-                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Hoãn lịch">
+                                <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
                                     <i class="bi bi-clock"></i>
-                                </a>*@
+                                </a>
+                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
+                                        <i class="bi bi-calendar2-event"></i>
+                                    </a>*@
+                                <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
+                                    <i class="bi bi-calendar2-event"></i>
+                                </a>
+
+                                <!-- Modal cho buổi sáng -->
+                                <div class="modal fade" id="dateTimeModalMorning" tabindex="-1" aria-labelledby="morningModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="morningModalLabel">Chọn ngày và giờ - Buổi Sáng</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" id="datepickerMorning" class="form-control mb-2" placeholder="Chọn ngày">
+                                                <input type="time" id="timepickerMorning" class="form-control mb-2">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                <button type="button" id="confirmDateMorning" class="btn btn-primary">Xác nhận</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         }
                     }
@@ -243,7 +288,23 @@
                             <div><strong>Phòng ban đăng ký:</strong> @afternoon.RegistrationPlace</div>
                             <div><strong>Người đăng ký:</strong> @afternoon.CreatedBy</div>
                             <div><strong>Loại lịch:</strong><span style="color:red"> @afternoon.ScheduleName</span></div>
-                            <div><strong>Tình trạng:</strong><span style="color:seagreen"> @afternoon.Status</span></div>
+                            <div>
+                                <strong>Tình trạng:</strong>
+                                <span style="color:seagreen">
+                                    @if (afternoon.Status == "Đã hoãn")
+                                    {
+                                        <span class="blinking-icon">Đã hoãn 🟡</span>
+                                    }
+                                    else if (afternoon.Status == "Đã dời")
+                                    {
+                                        <span>Đã dời từ ngày @afternoon.OldDate sang ngày @afternoon.NewDate</span>
+                                    }
+                                    else
+                                    {
+                                        @afternoon.Status
+                                    }
+                                </span>
+                            </div>
 
                             if (afternoon.AttachmentUrls.Count > 0)
                             {
@@ -271,15 +332,42 @@
                                 <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = afternoon.MeetingID})" class="icon-link" title="Chỉnh sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
+                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Duyệt lịch">
                                     <i class="bi bi-calendar2-check"></i>
                                 </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
+                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
                                     <i class="bi bi-calendar2-x"></i>
                                 </a>
-                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Hoãn lịch">
+                                <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
                                     <i class="bi bi-clock"></i>
+                                </a>
+                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
+                                    <i class="bi bi-calendar2-event"></i>
                                 </a>*@
+                                <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
+                                    <i class="bi bi-calendar2-event"></i>
+                                </a>    
+                                <!-- Modal cho buổi chiều -->
+                                <div class="modal fade" id="dateTimeModalAfternoon" tabindex="-1" aria-labelledby="afternoonModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="afternoonModalLabel">Chọn ngày và giờ - Buổi Chiều</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" id="datepickerAfternoon" class="form-control mb-2" placeholder="Chọn ngày">
+                                                <input type="time" id="timepickerAfternoon" class="form-control mb-2">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                <button type="button" id="confirmDateAfternoon" class="btn btn-warning">Xác nhận</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         }
                     }
@@ -293,14 +381,85 @@
     </tbody>
 </table>
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        // Kiểm tra xem thông báo có tồn tại không
-        if ($('#successAlert').length) {
-            // Tự động ẩn thông báo sau 2 giây
-            setTimeout(function () {
-                $('#successAlert').fadeOut('slow');
-            }, 2000);
-        }
+        var currentMeetingIdMorning = null;
+        var currentMeetingIdAfternoon = null;
+
+        // Khởi tạo DatePicker
+        $('#datepickerMorning, #datepickerAfternoon').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+
+        // Khi mở modal buổi sáng
+        $('.open-modal').click(function () {
+            var targetModal = $(this).data('target'); // Lấy modal cần mở
+            var meetingId = $(this).data('meeting-id'); // Lấy ID cuộc họp
+            if (targetModal === "#dateTimeModalMorning") {
+                currentMeetingIdMorning = meetingId;
+                console.log("ID Buổi Sáng:", currentMeetingIdMorning);
+            } else if (targetModal === "#dateTimeModalAfternoon") {
+                currentMeetingIdAfternoon = meetingId;
+                console.log("ID Buổi Chiều:", currentMeetingIdAfternoon);
+            }
+        });
+
+        // Xác nhận ngày giờ buổi sáng
+        $('#confirmDateMorning').click(function () {
+            var selectedDate = $('#datepickerMorning').val();
+            var selectedTime = $('#timepickerMorning').val();
+
+            if (!currentMeetingIdMorning) {
+                alert("Không tìm thấy Meeting ID. Vui lòng thử lại!");
+                return;
+            }
+
+            if (selectedDate && selectedTime) {
+                var newDate = selectedDate + ' ' + selectedTime;
+                console.log("id = " + currentMeetingIdMorning);
+                var url = '@Url.Action("PostponeMeeting", "ManageSchedule")' +
+                    '?id=' + encodeURIComponent(currentMeetingIdMorning) +
+                    '&selectedDates=' + encodeURIComponent('@ViewBag.SelectedDate') +
+                    '&currentAction=' + encodeURIComponent('Index') +
+                    '&currentController=' + encodeURIComponent('OfficialSchedule') +
+                    '&newDate=' + encodeURIComponent(newDate);
+                window.location.href = url;
+            } else {
+                alert("Vui lòng chọn ngày và giờ!");
+            }
+        });
+
+        // Xác nhận ngày giờ buổi chiều
+        $('#confirmDateAfternoon').click(function () {
+            var selectedDate = $('#datepickerAfternoon').val();
+            var selectedTime = $('#timepickerAfternoon').val();
+
+            if (!currentMeetingIdAfternoon) {
+                alert("Không tìm thấy Meeting ID. Vui lòng thử lại!");
+                return;
+            }
+
+            if (selectedDate && selectedTime) {
+                var newDate = selectedDate + ' ' + selectedTime;
+                console.log("id = " + currentMeetingIdAfternoon);
+                var url = '@Url.Action("PostponeMeeting", "ManageSchedule")' +
+                    '?id=' + encodeURIComponent(currentMeetingIdAfternoon) +
+                    '&selectedDates=' + encodeURIComponent('@ViewBag.SelectedDate') +
+                    '&currentAction=' + encodeURIComponent('Index') +
+                    '&currentController=' + encodeURIComponent('OfficialSchedule') +
+                    '&newDate=' + encodeURIComponent(newDate);
+                window.location.href = url;
+            } else {
+                alert("Vui lòng chọn ngày và giờ!");
+            }
+        });
+
     });
 </script>
+

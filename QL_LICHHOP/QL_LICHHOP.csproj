@@ -99,6 +99,7 @@
     <Compile Include="Controllers\ExpectedScheduleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageScheduleController.cs" />
+    <Compile Include="Controllers\OfficialScheduleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -115,6 +116,7 @@
     <Compile Include="Repositories\MeetingRepository.cs" />
     <Compile Include="Repositories\ScheduleTypeRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="ViewModels\MeetingParticipantViewModel.cs" />
     <Compile Include="ViewModels\MeetingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +136,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ExpectedSchedule\Index.cshtml" />
     <Content Include="Views\ManageSchedule\Create.cshtml" />
+    <Content Include="Views\ManageSchedule\Edit.cshtml" />
+    <Content Include="Views\OfficialSchedule\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
