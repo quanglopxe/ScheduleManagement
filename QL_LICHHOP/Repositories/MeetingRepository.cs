@@ -368,7 +368,7 @@ namespace QL_LICHHOP.Repositories
         }
 
         // Thêm cuộc họp mới
-        public void AddMeeting(MeetingViewModel model, List<string> newParticipants)
+        public void AddMeeting(MeetingViewModel model, List<string> newParticipants, string createdBy)
         {
             var newMeeting = new Meeting
             {
@@ -383,7 +383,7 @@ namespace QL_LICHHOP.Repositories
                 VehicleType = model.VehicleType,
                 Preparation = model.Preparation,
                 Status = "Chờ duyệt",
-                CreatedBy = "Chưa xử lý",
+                CreatedBy = createdBy,
                 CreatedAt = DateTime.Now,
             };
             _context.Meetings.InsertOnSubmit(newMeeting);
@@ -395,7 +395,7 @@ namespace QL_LICHHOP.Repositories
                 MeetingID = meetingId,
                 UserID = model.HostUserID,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "Chưa xử lý",
+                CreatedBy = createdBy,
             };
             _context.MeetingHosts.InsertOnSubmit(host);
             _context.SubmitChanges();
@@ -458,7 +458,7 @@ namespace QL_LICHHOP.Repositories
                         MeetingID = meetingId,
                         FilePath = fileName,
                         UploadedAt = DateTime.Now,
-                        UploadedBy = "Chưa xử lý",
+                        UploadedBy = createdBy,
                     };
                     _context.MeetingAttachments.InsertOnSubmit(attachment);
                 }
@@ -467,7 +467,7 @@ namespace QL_LICHHOP.Repositories
         }
 
 
-        public void UpdateMeeting(MeetingViewModel updatedMeeting, List<string> newParticipants)
+        public void UpdateMeeting(MeetingViewModel updatedMeeting, List<string> newParticipants, string updatedBy)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == updatedMeeting.MeetingID);
             if (meeting != null)
@@ -483,7 +483,7 @@ namespace QL_LICHHOP.Repositories
                 meeting.Location = updatedMeeting.Location;
                 meeting.VehicleType = updatedMeeting.VehicleType;
                 meeting.Preparation = updatedMeeting.Preparation;
-                meeting.UpdatedBy = "Chưa xử lý";
+                meeting.UpdatedBy = updatedBy;
                 meeting.UpdatedAt = DateTime.Now;
 
                 _context.SubmitChanges();
@@ -494,7 +494,7 @@ namespace QL_LICHHOP.Repositories
                 {
                     existingHost.UserID = updatedMeeting.HostUserID;
                     existingHost.UpdatedAt = DateTime.Now;
-                    existingHost.UpdatedBy = "Chưa xử lý";
+                    existingHost.UpdatedBy = updatedBy;
                 }
                 else
                 {
@@ -503,7 +503,7 @@ namespace QL_LICHHOP.Repositories
                         MeetingID = meeting.MeetingID,
                         UserID = updatedMeeting.HostUserID,
                         CreatedAt = DateTime.Now,
-                        CreatedBy = "Chưa xử lý"
+                        CreatedBy = updatedBy
                     };
                     _context.MeetingHosts.InsertOnSubmit(newHost);
                 }
@@ -570,7 +570,7 @@ namespace QL_LICHHOP.Repositories
                             MeetingID = meeting.MeetingID,
                             FilePath = fileName,
                             UploadedAt = DateTime.Now,
-                            UploadedBy = "Chưa xử lý"
+                            UploadedBy = updatedBy
                         };
 
                         _context.MeetingAttachments.InsertOnSubmit(attachment);
@@ -644,7 +644,8 @@ namespace QL_LICHHOP.Repositories
                     AttachmentPaths = _context.MeetingAttachments
                         .Where(a => a.MeetingID == meeting.MeetingID)
                         .Select(a => a.FilePath)
-                        .ToList()
+                        .ToList(),
+                    CreatedBy = meeting.CreatedBy
                 };
 
                 return meetingViewModel;
@@ -659,48 +660,52 @@ namespace QL_LICHHOP.Repositories
                 .Join(_context.Users, h => h.UserID, u => u.UserID, (h, u) => u)
                 .ToList();
         }
-        public Meeting ApproveSchedule(int id)
+        public Meeting ApproveSchedule(int id, string updatedStatusBy)
         {            
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
 
             if (meeting != null)
             {         
                 meeting.Status = "Đã duyệt";
+                meeting.UpdateStatusBy = updatedStatusBy;
                 _context.SubmitChanges();
             }
             return meeting;
         }
-        public List<Meeting> ApproveAllScheduleInWeek(DateTime startOfWeek, DateTime endOfWeek)
+        public List<Meeting> ApproveAllScheduleInWeek(DateTime startOfWeek, DateTime endOfWeek, string updatedStatusBy)
         {
             var meetings = _context.Meetings.Where(m => m.StartTime >= startOfWeek && m.StartTime <= endOfWeek).ToList();
             foreach (var meeting in meetings)
             {
                 meeting.Status = "Đã duyệt";
+                meeting.UpdateStatusBy = updatedStatusBy;
             }
             _context.SubmitChanges();
             return meetings;
         }
-        public Meeting RejectSchedule(int id)
+        public Meeting RejectSchedule(int id, string updatedStatusBy)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
             if (meeting != null)
             {
                 meeting.Status = "Không duyệt";
+                meeting.UpdateStatusBy = updatedStatusBy;
                 _context.SubmitChanges();
             }
             return meeting;
         }
-        public Meeting CancelSchedule(int id)
+        public Meeting CancelSchedule(int id, string updatedStatusBy)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
             if (meeting != null)
             {
                 meeting.Status = "Đã hoãn";
+                meeting.UpdateStatusBy = updatedStatusBy;
                 _context.SubmitChanges();
             }
             return meeting;
         }
-        public Meeting PostponeSchedule(int id, DateTime newDate)
+        public Meeting PostponeSchedule(int id, DateTime newDate, string updatedStatusBy)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
             if (meeting != null)
@@ -709,16 +714,18 @@ namespace QL_LICHHOP.Repositories
                 meeting.NewDate = newDate;
 
                 meeting.Status = "Đã dời";
+                meeting.UpdateStatusBy = updatedStatusBy;
                 _context.SubmitChanges();
             }
             return meeting;
         }
-        public Meeting DeleteMeeting(int id)
+        public Meeting DeleteMeeting(int id, string updatedStatusBy)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
             if (meeting != null)
             {
                 meeting.Status = "Đã xóa";
+                meeting.UpdateStatusBy = updatedStatusBy;
                 _context.SubmitChanges();
             }
             return meeting;

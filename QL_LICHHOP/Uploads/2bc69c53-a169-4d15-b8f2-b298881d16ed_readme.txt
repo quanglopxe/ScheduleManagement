@@ -1,0 +1,32 @@
+1️⃣ Project Title & Description (Tiêu đề & Giới thiệu)
+Milk Store Web API – RESTful API cho cửa hàng sữa và tã trẻ em.
+Dự án cung cấp các tính năng quản lý sản phẩm, đơn hàng, người dùng, giỏ hàng, v.v.
+2️⃣ Features (Các tính năng chính)
+✔ Quản lý sản phẩm: Thêm, sửa, xóa, xem danh sách sản phẩm.
+✔ Giỏ hàng & Thanh toán: Thêm sản phẩm vào giỏ, đặt hàng, xử lý thanh toán.
+✔ Quản lý đơn hàng: Theo dõi trạng thái đơn hàng, lịch sử mua hàng.
+✔ Xác thực & Phân quyền: Đăng ký, đăng nhập, JWT Authentication, phân quyền Admin/User/Staff.
+✔ Gợi ý sản phẩm thông minh: Đề xuất sản phẩm dựa trên hành vi người dùng.
+✔ Áp dụng mã giảm giá: Có thể áp dụng mã giảm giá khi mua hàng
+✔ Tích điểm đổi quà: Khi mua hàng sẽ được tích điểm và đổi điểm lấy quà
+✔ Chat: Hỗ trợ tư vấn khách hàng thông qua chức năng chat
+✔ Thống kê: Thống kê các sản phẩm bán chạy, bán chậm, thống kê doanh thu...
+✔ Đặt trước sản phẩm: Khi số lượng sản phẩm hết thì có thể đặt hàng trước
+✔ Đính kèm sản phẩm trong bài báo: Có thể đính kèm nhiều sản phẩm trong 1 bài báo để quảng cáo sản phẩm tốt hơn
+✔ Đánh giá sản phẩm: Người dùng có thể đánh giá các sản phẩm mà mình đã mua
+✔ Trả hàng, hoàn tiền: Khi hàng hóa gặp vấn đề có thể gửi yêu cầu trả hàng và hoàn tiền
+
+3️⃣ Tech Stack (Công nghệ sử dụng)
+🚀 Backend: ASP.NET Core Web API
+🛢 Database: SQL Server
+🔐 Authentication: JWT (JSON Web Token)
+📦 ORM: Entity Framework Core
+🔍 Search Optimization: AI-based recommendation system
+📡 API Documentation: Swagger
+
+4️⃣ Installation (Hướng dẫn cài đặt)
+📌 Yêu cầu
+.NET 6.0+
+SQL Server
+Visual Studio 2022
+🔧 Các bước cài đặt

@@ -17,5 +17,9 @@ namespace QL_LICHHOP.Repositories
         {
             return _context.Departments.ToList();
         }
+        public Department GetDepartmentById(int id)
+        {
+            return _context.Departments.FirstOrDefault(d => d.DepartmentID == id);
+        }
     }
 }

@@ -3,6 +3,7 @@
     <Type Name="Department">
       <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DepartmentName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="AbbreviatedName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="Department_User" Member="Users" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="User" />
       <Association Name="Department_MeetingParticipant" Member="MeetingParticipants" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="MeetingParticipant" />
       <Association Name="Department_Meeting" Member="Meetings" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Meeting" />
@@ -87,6 +88,7 @@
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="UpdatedBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdateStatusBy" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="Meeting_MeetingAttachment" Member="MeetingAttachments" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingAttachment" />
       <Association Name="Meeting_MeetingHost" Member="MeetingHosts" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingHost" />
       <Association Name="Meeting_MeetingParticipant" Member="MeetingParticipants" ThisKey="MeetingID" OtherKey="MeetingID" Type="MeetingParticipant" />

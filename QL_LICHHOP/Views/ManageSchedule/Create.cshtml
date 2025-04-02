@@ -15,6 +15,7 @@
             border-color: #0056b3; /* Màu viền khi có tiêu điểm */
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Hiệu ứng bóng */
         }
+
     #employeeSuggestions {
         background-color: #f1f1f1; /* Màu nền xám */
         border: 1px solid #ccc; /* Viền nhẹ */
@@ -38,41 +39,67 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nơi đăng ký</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Nơi đăng ký</label>
         <div class="col-md-2">
-            @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "DepartmentID", "DepartmentName"), new { @class = "form-select" })
+            <input type="text" class="form-control" value="@ViewBag.DepartmentName" readonly />
+            <input type="hidden" name="DepartmentID" value="@ViewBag.DepartmentID" />
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Lịch làm việc của <span style="color: red">(*)</span></label>
+        <label style="background-color: #cad6ef; text-align: right " class="col-md-2 col-form-label">Lịch làm việc của <span style="color: red">(*)</span></label>
         <div class="col-md-3">
             @Html.DropDownList("ScheduleTypeID", new SelectList(ViewBag.ScheduleTypes, "ScheduleTypeID", "Name"), new { @class = "form-select" })
         </div>
     </div>
 
-    <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Loại lịch <span style="color: red">(*)</span></label>
+    <div class="form-group row mt-2 d-flex align-items-center">
+        <!-- Loại lịch -->
+        <label class="col-md-2 col-form-label text-md-end" style="background-color: #cad6ef;">
+            Loại lịch <span style="color: red">(*)</span>
+        </label>
         <div class="col-md-2">
             @Html.DropDownListFor(m => m.ScheduleType, new SelectList(new List<SelectListItem>
             {
                 new SelectListItem { Value = "Sáng", Text = "Sáng" },
                 new SelectListItem { Value = "Chiều", Text = "Chiều" },
                 new SelectListItem { Value = "Cả ngày", Text = "Cả ngày" }
-            }, "Value", "Text"), "", new { @class = "form-select", required = "required" })
+            }, "Value", "Text"), new { @class = "form-select", required = "required" })
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-1 col-form-label">Thời gian <span style="color: red">(*)</span></label>
-        <div class="col-md-2">
-            <input type="datetime-local" id="StartTime" name="StartTime"
+
+        <!-- Thời gian (Nhãn chung) -->
+        <label class="col-md-2 col-form-label text-md-end" style="background-color: #cad6ef;">
+            Thời gian <span style="color: red">(*)</span>
+        </label>
+
+        <!-- Ngày & Giờ -->
+        <div class="col-md-3 d-flex align-items-center">
+            <label for="SDate" class="me-2">Ngày</label>
+            <input type="text" id="SDate" name="SDate"
+                   class="form-control me-2"
+                   required="required"
+                   value="@((Model.StartTime.HasValue) ? Model.StartTime.Value.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd/MM/yyyy"))"
+                   placeholder="dd/mm/yyyy" style="width: 120px;" />
+
+            <label for="STime" class="me-2">Giờ</label>
+            <input type="time" id="STime" name="STime"
                    class="form-control"
                    required="required"
-                   value="@((Model.StartTime.HasValue) ? Model.StartTime.Value.ToString("yyyy-MM-ddTHH:mm") : DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))" />
+                   value="@((Model.StartTime.HasValue) ? Model.StartTime.Value.ToString("HH:mm") : DateTime.Now.ToString("HH:mm"))"
+                   style="width: 100px;" />
+
+            <input type="hidden" id="CombinedStartTime" name="StartTime" />
         </div>
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Thời gian họp dự kiến (phút)</label>
-        <div class="col-md-2">
-            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", required = "required", min = "0" })
+
+        <!-- Thời gian họp dự kiến -->
+        <label class="col-md-2 col-form-label text-md-end" style="background-color: #cad6ef;">
+            Thời gian họp dự kiến (phút)
+        </label>
+        <div class="col-md-1">
+            @Html.TextBoxFor(m => m.DurationMinutes, new { @class = "form-control", type = "number", required = "required", min = "0", style = "width: 100px;" })
         </div>
     </div>
 
+
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Người chủ trì</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Người chủ trì</label>
 
         <!-- Combobox chọn người chủ trì từ danh sách -->
         <div class="col-md-2">
@@ -91,21 +118,21 @@
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Nội dung <span style="color: red">(*)</span></label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Nội dung <span style="color: red">(*)</span></label>
         <div class="col-md-9">
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", required = "required" })
+            @Html.TextAreaFor(m => m.Title, new { @class = "form-control", required = "required", rows = 4 }) <!-- Số dòng hiển thị -->
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Địa điểm</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Địa điểm</label>
         <div class="col-md-9">
             @Html.TextBoxFor(m => m.Location, new { @class = "form-control", required = "required" })
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label class="col-md-2 col-form-label" style="background-color: lightblue; text-align: right">
+        <label class="col-md-2 col-form-label" style="background-color: #cad6ef; text-align: right">
             Thành phần tham dự
         </label>
         <div class="col-md-2">
@@ -137,7 +164,7 @@
 
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Phương tiện</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Phương tiện</label>
         <div class="col-md-3">
             @Html.DropDownListFor(m => m.VehicleType, new SelectList(new List<SelectListItem>
             {
@@ -149,21 +176,21 @@
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Chuẩn bị</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Chuẩn bị</label>
         <div class="col-md-9">
             @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <label style="background-color: lightblue; text-align: right" class="col-md-2 col-form-label">Đính kèm tài liệu họp</label>
+        <label style="background-color: #cad6ef; text-align: right" class="col-md-2 col-form-label">Đính kèm tài liệu họp</label>
         <div class="col-md-9">
             <input type="file" id="fileInput" name="Attachments" multiple class="form-control" />
         </div>
     </div>
 
     <div class="form-group row mt-2">
-        <div class="col-md-2" style="background-color: lightblue"></div>
+        <div class="col-md-2" style="background-color: #cad6ef"></div>
         <div class="col-md-9">
             <ul id="fileList" class="list-group">
                 <!-- Danh sách tài liệu sẽ được thêm vào đây -->
@@ -227,7 +254,7 @@
         document.getElementById('employeeID').value = ''; // Reset UserID
     });
 
-    
+
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('employeeName').addEventListener('keyup', suggestEmployees);
@@ -383,5 +410,30 @@
     }
 });
 
+    $(document).ready(function () {
+        $('#SDate').datepicker({
+            format: 'dd/mm/yyyy', // Định dạng ngày hiển thị
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+    function combineDateTime() {
+        var dateInput = document.getElementById("SDate").value;
+        var timeInput = document.getElementById("STime").value;
 
+        if (dateInput && timeInput) {
+            var dateParts = dateInput.split('/');
+            var timeParts = timeInput.split(':');
+
+            // Tạo đối tượng DateTime
+            var combinedDateTime = new Date(dateParts[2], dateParts[1] - 1, dateParts[0], timeParts[0], timeParts[1]);
+
+            // Cập nhật giá trị cho ô nhập liệu ẩn
+            document.getElementById("CombinedStartTime").value = combinedDateTime.toISOString(); // Hoặc định dạng theo yêu cầu
+        }
+    }
+
+    // Gọi hàm khi có sự thay đổi trong ô ngày hoặc giờ
+    document.getElementById("SDate").addEventListener("change", combineDateTime);
+    document.getElementById("STime").addEventListener("change", combineDateTime);
 </script>

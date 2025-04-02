@@ -31,5 +31,6 @@ namespace QL_LICHHOP.ViewModels
 
         public List<HttpPostedFileBase> Attachments { get; set; }  // Danh sách file đính kèm
         public List<string> AttachmentPaths { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

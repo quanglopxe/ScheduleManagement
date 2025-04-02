@@ -103,10 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExpectedScheduleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageScheduleController.cs" />
     <Compile Include="Controllers\OfficialScheduleController.cs" />
+    <Compile Include="FilterAttribute\SessionTimeoutAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -118,6 +120,7 @@
       <DependentUpon>QL_LICHHOP.dbml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\HostRepository.cs" />
     <Compile Include="Repositories\MeetingRepository.cs" />
@@ -145,6 +148,7 @@
     <Content Include="Views\ManageSchedule\Create.cshtml" />
     <Content Include="Views\ManageSchedule\Edit.cshtml" />
     <Content Include="Views\OfficialSchedule\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

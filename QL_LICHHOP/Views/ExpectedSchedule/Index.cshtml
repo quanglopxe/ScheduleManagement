@@ -13,12 +13,22 @@
         right: 20px;
         z-index: 1050; /* Đảm bảo thông báo nằm trên các thành phần khác */
     }
+    #errorAlert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050; /* Đảm bảo thông báo nằm trên các thành phần khác */
+    }
 </style>
 @if (!string.IsNullOrEmpty(successMessage))
 {
     <div id="successAlert" class="alert alert-success alert-dismissible" role="alert">
-        @successMessage        
+        @successMessage
     </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorAlert" class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 <form method="get" action="@Url.Action("Index")" class="p-3 border rounded">
     <div class="row mb-2">
@@ -101,6 +111,7 @@
     <a href="@Url.Action("PrintSchedule", "ManageSchedule", new { startOfWeek = ViewBag.StartOfWeek, endOfWeek = ViewBag.EndOfWeek, status = "Chờ duyệt,Không duyệt" })" style="margin-right: 25px" type="button" class="btn btn-outline-success">
         <i class="bi bi-printer"></i> In lịch
     </a>
+    
     <a href="@Url.Action("ApproveAllMeetingInWeek", "ManageSchedule", new {startOfWeek = ViewBag.StartOfWeek, endOfWeek = ViewBag.EndOfWeek, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" style="margin-right: 40px" type="button" class="btn btn-outline-success"><i class="bi bi-check-lg"></i> Duyệt tất cả</a>
 </div>
 <table class="table table-bordered" style="border: 1px solid black">
@@ -115,8 +126,8 @@
         @foreach (var schedule in Model)
         {
             <tr style="text-align: center">
-                <th width="150px" style="@(schedule.Date.Date == today ? "background-color: #FFD700;" : "")">
-                    @schedule.DayOfWeek <br />(@schedule.Date.ToString("dd/MM/yyyy")) <br /><br />
+                <th width="150px" style="vertical-align: middle; @(schedule.Date.Date == today ? "background-color: #FFD700;" : "")">
+                    @schedule.DayOfWeek <br />(@schedule.Date.ToString("dd/MM/yyyy")) <br />
                     <a href="@Url.Action("Create", "ManageSchedule", new { date = schedule.Date.ToString("yyyy-MM-dd") })" style="font-size: 30px">
                         <i class="bi bi-calendar2-plus"></i>
                     </a>
@@ -185,25 +196,28 @@
                             {
                                 <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
                             }
-                            <div class="icon-row" style="font-size: 30px; margin-top: 10px">
-                                <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = morning.MeetingID, currentController = "ExpectedSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
-                                    <i class="bi bi-calendar2-check"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
-                                    <i class="bi bi-calendar2-x"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Hủy lịch">
-                                    <i class="bi bi-trash3"></i>
-                                </a>                    
+                            <div class="icon-row" style="font-size: 30px; margin-top: 10px; text-align: center">
+                                @if (morning.CreatedBy == ViewBag.CurrentUser)
+                                {
+                                    <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = morning.MeetingID, currentController = "ExpectedSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
+                                        <i class="bi bi-calendar2-check"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
+                                        <i class="bi bi-calendar2-x"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Hủy lịch">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                }
                             </div>
                         }
                     }
                     else
                     {
-                        <span>Không có cuộc họp buổi sáng.</span>
+                        <span></span>
                     }
                 </td>
                 <td style="text-align: left">
@@ -270,25 +284,28 @@
                             {
                                 <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
                             }
-                            <div class="icon-row" style="font-size: 30px; margin-top: 10px">
-                                <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = afternoon.MeetingID, currentController = "ExpectedSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
-                                    <i class="bi bi-calendar2-check"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
-                                    <i class="bi bi-calendar2-x"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Hủy lịch">
-                                    <i class="bi bi-trash3"></i>
-                                </a>                          
+                            <div class="icon-row" style="font-size: 30px; margin-top: 10px; text-align: center">
+                                @if (afternoon.CreatedBy == ViewBag.CurrentUser)
+                                {
+                                    <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = afternoon.MeetingID, currentController = "ExpectedSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Duyệt lịch">
+                                        <i class="bi bi-calendar2-check"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Không duyệt">
+                                        <i class="bi bi-calendar2-x"></i>
+                                    </a>
+                                    <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "ExpectedSchedule"})" class="icon-link" title="Hủy lịch">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                }
                             </div>
                         }
                     }
                     else
                     {
-                        <span>Không có cuộc họp buổi chiều.</span>
+                        <span></span>
                     }
                 </td>
             </tr>
@@ -303,6 +320,12 @@
             // Tự động ẩn thông báo sau 2 giây
             setTimeout(function () {
                 $('#successAlert').fadeOut('slow');
+            }, 2000);
+        }
+        if ($('#errorAlert').length) {
+            // Tự động ẩn thông báo sau 2 giây
+            setTimeout(function () {
+                $('#errorAlert').fadeOut('slow');
             }, 2000);
         }
     });

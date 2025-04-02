@@ -148,6 +148,8 @@ namespace QL_LICHHOP.Models
 		
 		private string _DepartmentName;
 		
+		private string _AbbreviatedName;
+		
 		private EntitySet<User> _Users;
 		
 		private EntitySet<MeetingParticipant> _MeetingParticipants;
@@ -162,6 +164,8 @@ namespace QL_LICHHOP.Models
     partial void OnDepartmentIDChanged();
     partial void OnDepartmentNameChanging(string value);
     partial void OnDepartmentNameChanged();
+    partial void OnAbbreviatedNameChanging(string value);
+    partial void OnAbbreviatedNameChanged();
     #endregion
 		
 		public Department()
@@ -208,6 +212,26 @@ namespace QL_LICHHOP.Models
 					this._DepartmentName = value;
 					this.SendPropertyChanged("DepartmentName");
 					this.OnDepartmentNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AbbreviatedName", DbType="NVarChar(100)")]
+		public string AbbreviatedName
+		{
+			get
+			{
+				return this._AbbreviatedName;
+			}
+			set
+			{
+				if ((this._AbbreviatedName != value))
+				{
+					this.OnAbbreviatedNameChanging(value);
+					this.SendPropertyChanging();
+					this._AbbreviatedName = value;
+					this.SendPropertyChanged("AbbreviatedName");
+					this.OnAbbreviatedNameChanged();
 				}
 			}
 		}
@@ -1661,6 +1685,8 @@ namespace QL_LICHHOP.Models
 		
 		private System.Nullable<System.DateTime> _UpdatedAt;
 		
+		private string _UpdateStatusBy;
+		
 		private EntitySet<MeetingAttachment> _MeetingAttachments;
 		
 		private EntitySet<MeetingHost> _MeetingHosts;
@@ -1711,6 +1737,8 @@ namespace QL_LICHHOP.Models
     partial void OnUpdatedByChanged();
     partial void OnUpdatedAtChanging(System.Nullable<System.DateTime> value);
     partial void OnUpdatedAtChanged();
+    partial void OnUpdateStatusByChanging(string value);
+    partial void OnUpdateStatusByChanged();
     #endregion
 		
 		public Meeting()
@@ -2087,6 +2115,26 @@ namespace QL_LICHHOP.Models
 					this._UpdatedAt = value;
 					this.SendPropertyChanged("UpdatedAt");
 					this.OnUpdatedAtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateStatusBy", DbType="NVarChar(255)")]
+		public string UpdateStatusBy
+		{
+			get
+			{
+				return this._UpdateStatusBy;
+			}
+			set
+			{
+				if ((this._UpdateStatusBy != value))
+				{
+					this.OnUpdateStatusByChanging(value);
+					this.SendPropertyChanging();
+					this._UpdateStatusBy = value;
+					this.SendPropertyChanged("UpdateStatusBy");
+					this.OnUpdateStatusByChanged();
 				}
 			}
 		}

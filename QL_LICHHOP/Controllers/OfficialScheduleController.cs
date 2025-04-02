@@ -1,4 +1,5 @@
-﻿using QL_LICHHOP.Repositories;
+﻿using QL_LICHHOP.FilterAttribute;
+using QL_LICHHOP.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace QL_LICHHOP.Controllers
 {
+    [SessionTimeout]
     public class OfficialScheduleController : Controller
     {
         // GET: OfficialSchedule
@@ -38,7 +40,7 @@ namespace QL_LICHHOP.Controllers
             }
 
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
-
+            ViewBag.CurrentUser = Session["FullName"]?.ToString();
             ViewBag.SelectedDate = currentDate;
             ViewBag.StartOfWeek = startOfWeek;
             ViewBag.EndOfWeek = endOfWeek;

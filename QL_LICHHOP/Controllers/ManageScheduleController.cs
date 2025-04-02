@@ -1,4 +1,5 @@
-﻿using QL_LICHHOP.Models;
+﻿using QL_LICHHOP.FilterAttribute;
+using QL_LICHHOP.Models;
 using QL_LICHHOP.Repositories;
 using QL_LICHHOP.ViewModels;
 using System;
@@ -12,6 +13,7 @@ using System.Web.Mvc;
 
 namespace QL_LICHHOP.Controllers
 {
+    [SessionTimeout]
     public class ManageScheduleController : Controller
     {
         private readonly MeetingRepository meetingRepository = new MeetingRepository();
@@ -25,10 +27,20 @@ namespace QL_LICHHOP.Controllers
             return View();
         }
         public ActionResult Create(DateTime? date)
-        {
+        {            
             ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
             ViewBag.Departments = departmentRepository.GetDepartments();
             ViewBag.Hosts = userRepository.GetHosts();
+            var userID = Session["UserID"];
+            if (userID == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
+            var user = userRepository.GetUserById((int)userID);
+            var department = departmentRepository.GetDepartmentById(user.DepartmentID);
+            ViewBag.DepartmentName = department != null ? department.DepartmentName : "Không xác định";
+            ViewBag.DepartmentID = user.DepartmentID;
             MeetingViewModel model = new MeetingViewModel
             {
                 ScheduleType = "Sáng",
@@ -47,9 +59,9 @@ namespace QL_LICHHOP.Controllers
                 var newParticipantsList = !string.IsNullOrEmpty(newParticipants)
                     ? newParticipants.Split(',').ToList()
                     : new List<string>();
-
+                var createdBy = Session["FullName"]?.ToString();
                 // Gửi dữ liệu vào repository
-                meetingRepository.AddMeeting(newMeeting, newParticipantsList);
+                meetingRepository.AddMeeting(newMeeting, newParticipantsList, createdBy);
 
                 return RedirectToAction("Index","ExpectedSchedule");
             }
@@ -119,6 +131,12 @@ namespace QL_LICHHOP.Controllers
             {
                 return HttpNotFound();
             }
+            string currentUser = Session["FullName"]?.ToString();
+            if (meeting.CreatedBy != currentUser)
+            {
+                TempData["ErrorMessage"] = "Bạn không có quyền chỉnh sửa lịch này!";
+                return RedirectToAction("Index", currentController, new { selectedDate = selectedDates });
+            }
             var users = userRepository.GetAllUsers();
             ViewBag.Users = users;
 
@@ -138,7 +156,7 @@ namespace QL_LICHHOP.Controllers
             if (ModelState.IsValid)
             {                
                 var newParticipantsList = !string.IsNullOrEmpty(newParticipants) ? newParticipants.Split(',').ToList() : new List<string>();
-
+                var updatedBy = Session["FullName"]?.ToString();
                 // Lấy file mới từ Request.Files
                 List<HttpPostedFileBase> uploadedFiles = new List<HttpPostedFileBase>();
                 foreach (string fileName in Request.Files)
@@ -158,7 +176,7 @@ namespace QL_LICHHOP.Controllers
 
                 updatedMeeting.Attachments = uploadedFiles;
 
-                meetingRepository.UpdateMeeting(updatedMeeting, newParticipantsList);
+                meetingRepository.UpdateMeeting(updatedMeeting, newParticipantsList, updatedBy);
 
                 return RedirectToAction("Index", currentController, new { selectedDate = selectedDates });
             }
@@ -182,7 +200,8 @@ namespace QL_LICHHOP.Controllers
         
         public ActionResult ApproveMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
         {
-            var meeting = meetingRepository.ApproveSchedule(id);
+            string updatedStatusBy = Session["FullName"]?.ToString();
+            var meeting = meetingRepository.ApproveSchedule(id, updatedStatusBy);
             if (meeting == null)
             {
                 return HttpNotFound();
@@ -195,7 +214,8 @@ namespace QL_LICHHOP.Controllers
         }
         public ActionResult ApproveAllMeetingInWeek(DateTime startOfWeek, DateTime endOfWeek, DateTime? selectedDates, string currentAction, string currentController)
         {
-            var meetings = meetingRepository.ApproveAllScheduleInWeek(startOfWeek, endOfWeek);
+            string updatedStatusBy = Session["FullName"]?.ToString();
+            var meetings = meetingRepository.ApproveAllScheduleInWeek(startOfWeek, endOfWeek, updatedStatusBy);
             if (!meetings.Any())
             {
                 return HttpNotFound();
@@ -205,7 +225,8 @@ namespace QL_LICHHOP.Controllers
         }
         public ActionResult RejectMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
         {
-            var meeting = meetingRepository.RejectSchedule(id);
+            string updatedStatusBy = Session["FullName"]?.ToString();
+            var meeting = meetingRepository.RejectSchedule(id, updatedStatusBy);
             if (meeting == null)
             {
                 return HttpNotFound();
@@ -215,12 +236,13 @@ namespace QL_LICHHOP.Controllers
         }
         public ActionResult PostponeMeeting(int id, DateTime? selectedDates, string currentAction, string currentController, string newDate)
         {
+            string updatedStatusBy = Session["FullName"]?.ToString();
             DateTime parsedDate;
             if (!DateTime.TryParseExact(newDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
             {
                 return new HttpStatusCodeResult(400, "Định dạng ngày không hợp lệ.");
             }
-            var meeting = meetingRepository.PostponeSchedule(id, parsedDate);
+            var meeting = meetingRepository.PostponeSchedule(id, parsedDate, updatedStatusBy);
             if (meeting == null)
             {
                 return HttpNotFound();
@@ -230,7 +252,8 @@ namespace QL_LICHHOP.Controllers
         }
         public ActionResult CancelMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
         {
-            var meeting = meetingRepository.CancelSchedule(id);
+            string updatedStatusBy = Session["FullName"]?.ToString();
+            var meeting = meetingRepository.CancelSchedule(id, updatedStatusBy);
             if (meeting == null)
             {
                 return HttpNotFound();
@@ -240,7 +263,8 @@ namespace QL_LICHHOP.Controllers
         }
         public ActionResult Delete(int id, DateTime? selectedDates, string currentAction, string currentController)
         {
-            var meeting = meetingRepository.DeleteMeeting(id);
+            string updatedStatusBy = Session["FullName"]?.ToString();
+            var meeting = meetingRepository.DeleteMeeting(id, updatedStatusBy);
             if (meeting == null)
             {
                 return HttpNotFound();

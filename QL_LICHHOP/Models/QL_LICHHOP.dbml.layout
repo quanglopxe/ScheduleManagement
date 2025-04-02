@@ -1,110 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.5, 8.75" name="QL_LICHHOP">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.5, 9.875" name="QL_LICHHOP">
   <DataContextMoniker Name="/QL_LICHHOPDataContext" />
   <nestedChildShapes>
-    <classShape Id="de0f3f38-4def-419a-a005-ba5820de4739" absoluteBounds="0.75, 6.25, 2, 1.1939925130208326">
+    <classShape Id="3fa89c40-193f-4258-8233-d84eb53706a6" absoluteBounds="0.75, 7.25, 2, 1.3862939453125014">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/Department" />
       <nestedChildShapes>
-        <elementListCompartment Id="ed3f1b90-ee26-47cb-b5f6-1d3057a12cbf" absoluteBounds="0.765, 6.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="fcf3b193-fd0a-4763-8f43-1e9471ee4aeb" absoluteBounds="0.765, 7.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9c5e7612-2410-4c0e-9848-d9bda2dd034b" absoluteBounds="3.5, 5.25, 2, 3.3093082682291666">
+    <classShape Id="9a8ffcfa-6fd0-45c5-a87a-ea9f3b2af0e4" absoluteBounds="3.5, 6.375, 2, 3.3093082682291666">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="25eb844e-c4eb-4335-b68c-d0c96bea00b4" absoluteBounds="3.515, 5.71, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="05310d52-6309-49e2-8882-3ad77f8c20ad" absoluteBounds="3.515, 6.835, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="41b91e12-38c3-46b4-b5a7-95b5b3af24a5" absoluteBounds="9.25, 2, 2, 1.7708968098958329">
+    <classShape Id="ee4772d7-3001-4a1d-b7f7-2a6df975817c" absoluteBounds="6.25, 2.125, 2, 1.7708968098958326">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/MeetingAttachment" />
       <nestedChildShapes>
-        <elementListCompartment Id="08b7cf55-17b1-4b50-adc4-efb20cc687cd" absoluteBounds="9.265, 2.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="25f697d6-2c52-4fed-9c5d-9ef29ce16c83" absoluteBounds="6.265, 2.585, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="a996043b-b165-43e5-a320-8d7c106ef9c0" absoluteBounds="6.25, 5.75, 2, 2.1554996744791666">
+    <classShape Id="3b878c81-e535-40b2-b156-7ccab730314b" absoluteBounds="6.25, 6.875, 2, 2.1554996744791657">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/MeetingHost" />
       <nestedChildShapes>
-        <elementListCompartment Id="b8c66065-5428-4896-92bb-d56e5b9221b4" absoluteBounds="6.265, 6.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="26003c8a-da53-4115-b29d-1c69df79cfef" absoluteBounds="6.265, 7.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="18fa1c87-e228-4ef5-8dea-558a1392f1ff" absoluteBounds="9.25, 5.625, 2, 2.5401025390625005">
+    <classShape Id="b0bc6d4e-4cc6-4292-b688-795e9feabb0c" absoluteBounds="9.25, 6.75, 2, 2.5401025390625005">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/MeetingParticipant" />
       <nestedChildShapes>
-        <elementListCompartment Id="b6ef4cb8-80ce-41f5-8a8f-33e62fba9943" absoluteBounds="9.265, 6.085, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8e70ca62-4625-4d99-93ab-b1ae895d88ec" absoluteBounds="9.265, 7.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9648077c-a996-4340-90de-d4635d395fe4" absoluteBounds="6.5, 0.75, 2, 4.2708154296875005">
+    <classShape Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" absoluteBounds="3.5, 0.75, 2, 4.4631168619791666">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/Meeting" />
       <nestedChildShapes>
-        <elementListCompartment Id="0adf2d12-56c7-4d62-a9bd-1065f3646b34" absoluteBounds="6.515, 1.21, 1.9700000000000002, 3.7108154296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d8355f60-3eb5-4727-ba1f-b3514e0f05d5" absoluteBounds="3.515, 1.21, 1.9700000000000002, 3.903116861979167" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c009ff99-a798-47a2-88d7-ad528925e091" absoluteBounds="3.75, 2.25, 2, 1.3862939453125">
+    <classShape Id="e61bd0da-bbe2-4aa6-9beb-892ac4bcf715" absoluteBounds="0.75, 2.25, 2, 1.3862939453125005">
       <DataClassMoniker Name="/QL_LICHHOPDataContext/ScheduleType" />
       <nestedChildShapes>
-        <elementListCompartment Id="4dde8d32-a57e-4aee-b2eb-db3a977fd5a2" absoluteBounds="3.765, 2.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="07eff101-af58-43e8-93c0-8e6190efa519" absoluteBounds="0.765, 2.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 6.84699625651042); (3.5 : 6.84699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 7.94314697265625); (3.5 : 7.94314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Department/Department_User" />
       <nodes>
-        <classShapeMoniker Id="de0f3f38-4def-419a-a005-ba5820de4739" />
-        <classShapeMoniker Id="9c5e7612-2410-4c0e-9848-d9bda2dd034b" />
+        <classShapeMoniker Id="3fa89c40-193f-4258-8233-d84eb53706a6" />
+        <classShapeMoniker Id="9a8ffcfa-6fd0-45c5-a87a-ea9f3b2af0e4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 6.82774983723958); (6.25 : 6.82774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 7.95274983723958); (6.25 : 7.95274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/User/User_MeetingHost" />
       <nodes>
-        <classShapeMoniker Id="9c5e7612-2410-4c0e-9848-d9bda2dd034b" />
-        <classShapeMoniker Id="a996043b-b165-43e5-a320-8d7c106ef9c0" />
+        <classShapeMoniker Id="9a8ffcfa-6fd0-45c5-a87a-ea9f3b2af0e4" />
+        <classShapeMoniker Id="3b878c81-e535-40b2-b156-7ccab730314b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 6.51724612825521); (3.25 : 6.51724612825521); (3.25 : 5); (6.25 : 5); (6.25 : 5.2708154296875); (7.29166666666667 : 5.2708154296875 : JumpStart); (7.45833333333333 : 5.2708154296875 : JumpEnd); (8.32291666666667 : 5.2708154296875 : JumpStart); (8.48958333333333 : 5.2708154296875 : JumpEnd); (10.25 : 5.2708154296875); (10.25 : 5.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 7.56532148632813); (3.25 : 7.56532148632813); (3.25 : 6.125); (5.79166666666667 : 6.125 : JumpStart); (5.95833333333333 : 6.125 : JumpEnd); (9.63541416666667 : 6.125 : JumpStart); (9.80208083333333 : 6.125 : JumpEnd); (10.25 : 6.125); (10.25 : 6.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Department/Department_MeetingParticipant" />
       <nodes>
-        <classShapeMoniker Id="de0f3f38-4def-419a-a005-ba5820de4739" />
-        <classShapeMoniker Id="18fa1c87-e228-4ef5-8dea-558a1392f1ff" />
+        <classShapeMoniker Id="3fa89c40-193f-4258-8233-d84eb53706a6" />
+        <classShapeMoniker Id="b0bc6d4e-4cc6-4292-b688-795e9feabb0c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 8.06655110677083); (9.25 : 8.06655110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 9.19155110677083); (9.25 : 9.19155110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/User/User_MeetingParticipant" />
       <nodes>
-        <classShapeMoniker Id="9c5e7612-2410-4c0e-9848-d9bda2dd034b" />
-        <classShapeMoniker Id="18fa1c87-e228-4ef5-8dea-558a1392f1ff" />
+        <classShapeMoniker Id="9a8ffcfa-6fd0-45c5-a87a-ea9f3b2af0e4" />
+        <classShapeMoniker Id="b0bc6d4e-4cc6-4292-b688-795e9feabb0c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 2.88544840494792); (9.25 : 2.88544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 3.01044840494792); (6.25 : 3.01044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Meeting/Meeting_MeetingAttachment" />
       <nodes>
-        <classShapeMoniker Id="9648077c-a996-4340-90de-d4635d395fe4" />
-        <classShapeMoniker Id="41b91e12-38c3-46b4-b5a7-95b5b3af24a5" />
+        <classShapeMoniker Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" />
+        <classShapeMoniker Id="ee4772d7-3001-4a1d-b7f7-2a6df975817c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.375 : 5.0208154296875); (7.375 : 5.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 5.21311686197917); (5.875 : 5.58811686197917); (5.875 : 7.38262291861979); (6.25 : 7.38262291861979)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Meeting/Meeting_MeetingHost" />
       <nodes>
-        <classShapeMoniker Id="9648077c-a996-4340-90de-d4635d395fe4" />
-        <classShapeMoniker Id="a996043b-b165-43e5-a320-8d7c106ef9c0" />
+        <classShapeMoniker Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" />
+        <classShapeMoniker Id="3b878c81-e535-40b2-b156-7ccab730314b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.40625 : 5.0208154296875); (8.40625 : 8.03529860677083); (9.25 : 8.03529860677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 1.40625); (9.7187475 : 1.40625); (9.7187475 : 6.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Meeting/Meeting_MeetingParticipant" />
       <nodes>
-        <classShapeMoniker Id="9648077c-a996-4340-90de-d4635d395fe4" />
-        <classShapeMoniker Id="18fa1c87-e228-4ef5-8dea-558a1392f1ff" />
+        <classShapeMoniker Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" />
+        <classShapeMoniker Id="b0bc6d4e-4cc6-4292-b688-795e9feabb0c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 6.25); (1.75 : 1.46875); (6.5 : 1.46875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 7.25); (3.125 : 6.875); (3.125 : 2.98155843098958); (3.5 : 2.98155843098958)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/Department/Department_Meeting" />
       <nodes>
-        <classShapeMoniker Id="de0f3f38-4def-419a-a005-ba5820de4739" />
-        <classShapeMoniker Id="9648077c-a996-4340-90de-d4635d395fe4" />
+        <classShapeMoniker Id="3fa89c40-193f-4258-8233-d84eb53706a6" />
+        <classShapeMoniker Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.75 : 2.94314697265625); (6.5 : 2.94314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 2.55327921549479); (3.5 : 2.55327921549479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/QL_LICHHOPDataContext/ScheduleType/ScheduleType_Meeting" />
       <nodes>
-        <classShapeMoniker Id="c009ff99-a798-47a2-88d7-ad528925e091" />
-        <classShapeMoniker Id="9648077c-a996-4340-90de-d4635d395fe4" />
+        <classShapeMoniker Id="e61bd0da-bbe2-4aa6-9beb-892ac4bcf715" />
+        <classShapeMoniker Id="5381c26a-5e64-41eb-a32c-73427d7c4e59" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
