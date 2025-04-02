@@ -9,6 +9,7 @@ namespace QL_LICHHOP.Models
     {
         public int MeetingID { get; set; }
         public string StartTime { get; set; }
+        public string StartDate { get; set; }
         public string OldDate { get; set; }
         public string NewDate { get; set; }
         public string Title { get; set; }
@@ -19,6 +20,7 @@ namespace QL_LICHHOP.Models
         public string RegistrationPlace { get; set; }
         public string CreatedBy { get; set; }
         public string ScheduleName { get; set; }
+        public string ScheduleType { get; set; }
         public string Status { get; set; }
         public List<string> AttachmentUrls { get; set; }
         public List<string> ParticipantsOrDepartment { get; set; }

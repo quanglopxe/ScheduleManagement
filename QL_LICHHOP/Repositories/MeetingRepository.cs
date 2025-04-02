@@ -1,12 +1,18 @@
-﻿using QL_LICHHOP.Models;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml;
+using QL_LICHHOP.Models;
 using QL_LICHHOP.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Configuration;
 
 namespace QL_LICHHOP.Repositories
 {
@@ -134,6 +140,7 @@ namespace QL_LICHHOP.Repositories
                     MeetingID = x.m.MeetingID,
                     Location = x.m.Location,
                     StartTime = x.m.StartTime.ToString("HH:mm"),
+                    StartDate = x.m.StartTime.ToString("dd/MM/yyyy"),
                     Title = x.m.Title,
                     // Lấy Host từ MeetingHosts
                     Host = x.hosts
@@ -163,6 +170,7 @@ namespace QL_LICHHOP.Repositories
                     CreatedBy = x.m.CreatedBy,
                     // Lấy ScheduleName từ bảng ScheduleTypes
                     ScheduleName = x.ScheduleName,
+                    ScheduleType = x.m.ScheduleType,
                     Status = x.m.Status,
                     AttachmentUrls = _context.MeetingAttachments
                         .Where(a => a.MeetingID == x.m.MeetingID)
@@ -200,6 +208,163 @@ namespace QL_LICHHOP.Repositories
         public int GetWeekOfYear(DateTime date)
         {
             return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+        public void GenerateWeekScheduleDocument(DateTime startOfWeek, DateTime endOfWeek, string filePath, List<string> status)
+        {
+            // Lấy thông tin cuộc họp theo từng ngày trong tuần
+            var meetingsByDay = new List<MeetingDTO>();
+
+            for (var date = startOfWeek; date <= endOfWeek; date = date.AddDays(1))
+            {
+                var scheduleTypes = new List<string> { "sáng", "chiều", "cả ngày" };            
+                var dailyMeetings = GetMeetingByTimeOfDay(date, scheduleTypes, status);
+                meetingsByDay.AddRange(dailyMeetings);
+            }
+
+            // Tạo tài liệu Word
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
+            {
+                MainDocumentPart mainPart = wordDoc.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                Body body = new Body();
+
+                // Tiêu đề
+                Paragraph title = new Paragraph(new Run(new Text("ỦY BAN NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH")));
+                title.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+                body.Append(title);
+
+                Paragraph subtitle = new Paragraph(new Run(new Text("CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM")));
+                subtitle.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+                body.Append(subtitle);
+
+                Paragraph date = new Paragraph(new Run(new Text("Độc lập - Tự do - Hạnh phúc")));
+                date.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+                body.Append(date);
+
+                body.Append(new Paragraph(new Run(new Text("")))); // Thêm một dòng trống
+
+                // Tiêu đề lịch công tác
+                Paragraph scheduleTitle = new Paragraph(new Run(new Text("LỊCH HỌP VÀ LỊCH LÀM VIỆC")));
+                scheduleTitle.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+                body.Append(scheduleTitle);
+
+                // Thêm thông tin tuần
+                string weekInfoText = $"Tuần từ: {startOfWeek.ToString("dd/MM/yyyy")} đến {endOfWeek.ToString("dd/MM/yyyy")}";
+                Paragraph weekInfo = new Paragraph(new Run(new Text(weekInfoText)));
+                weekInfo.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+                body.Append(weekInfo);
+
+                body.Append(new Paragraph(new Run(new Text("")))); // Thêm một dòng trống
+
+                // Tạo bảng
+                Table table = new Table();
+                TableProperties tblProps = new TableProperties(new TableBorders(
+                    new TopBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                    new BottomBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                    new LeftBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                    new RightBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                    new InsideHorizontalBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 6 },
+                    new InsideVerticalBorder() { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 6 }));
+
+                table.AppendChild(tblProps);
+
+                // Thêm hàng tiêu đề
+                TableRow headerRow = new TableRow();
+                string[] headers = { "NGÀY", "BUỔI", "GIỜ", "NỘI DUNG", "THÀNH PHẦN", "ĐỊA ĐIỂM", "CHUẨN BỊ" };
+                foreach (string header in headers)
+                {
+                    TableCell cell = new TableCell(new Paragraph(new Run(new Text(header))));
+                    cell.Append(new TableCellProperties(new Shading() { Fill = "CCCCCC" }));
+                    headerRow.Append(cell);
+                }
+                table.Append(headerRow);
+
+                // Lưu trữ số lượng lịch họp cho mỗi ngày
+                Dictionary<string, int> meetingCount = new Dictionary<string, int>();
+
+                // Thêm dữ liệu cuộc họp
+                foreach (var meeting in meetingsByDay)
+                {
+                    TableRow dataRow = new TableRow();
+
+                    DateTime startDate;
+                    DateTime startTime;
+
+                    // Kiểm tra và chuyển đổi StartDate
+                    if (DateTime.TryParseExact(meeting.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate))
+                    {
+                        // Kiểm tra và chuyển đổi StartTime
+                        if (DateTime.TryParse(meeting.StartTime, out startTime))
+                        {
+                            // Kết hợp ngày và giờ
+                            DateTime combinedDateTime = startDate.Date + startTime.TimeOfDay;
+
+                            // Lấy tên thứ bằng tiếng Việt
+                            CultureInfo vietnameseCulture = new CultureInfo("vi-VN");
+                            string dayOfWeek = startDate.ToString("dddd", vietnameseCulture); // Lấy tên thứ
+                            string dateKey = $"{dayOfWeek} - {startDate.ToString("dd/MM/yyyy")}";
+
+                            // Tăng số lượng lịch họp cho ngày này
+                            if (!meetingCount.ContainsKey(dateKey))
+                            {
+                                meetingCount[dateKey] = 0;
+                            }
+                            meetingCount[dateKey]++;
+
+                            // Thêm ô cho ngày
+                            if (meetingCount[dateKey] == 1) // Nếu đây là lần đầu tiên gặp ngày này
+                            {
+                                string dateDisplay = $"{dayOfWeek}\n{startDate.ToString("dd/MM/yyyy")}";
+                                dataRow.Append(new TableCell(new Paragraph(new Run(new Text(dateDisplay))))); // NGÀY
+                            }
+                            else // Nếu đã có ô cho ngày này
+                            {
+                                dataRow.Append(new TableCell(new Paragraph(new Run(new Text(""))))); // Ô trống
+                            }
+
+                            // Thêm các thông tin khác vào dataRow
+                            dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.ScheduleType))))); // BUỔI
+                            dataRow.Append(new TableCell(new Paragraph(new Run(new Text(combinedDateTime.ToString("HH:mm")))))); // GIỜ
+                        }
+                        else
+                        {
+                            // Xử lý trường hợp nếu không thể chuyển đổi StartTime
+                            dataRow.Append(new TableCell(new Paragraph(new Run(new Text("Không xác định"))))); // NGÀY
+                            dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.ScheduleType))))); // BUỔI
+                            dataRow.Append(new TableCell(new Paragraph(new Run(new Text("Không xác định"))))); // GIỜ
+                        }
+                    }
+                    else
+                    {
+                        // Xử lý trường hợp nếu không thể chuyển đổi StartDate
+                        dataRow.Append(new TableCell(new Paragraph(new Run(new Text("Không xác định"))))); // NGÀY
+                        dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.ScheduleType))))); // BUỔI
+                        dataRow.Append(new TableCell(new Paragraph(new Run(new Text("Không xác định"))))); // GIỜ
+                    }
+
+                    dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.Title))))); // NỘI DUNG
+
+                    // Xử lý cột THÀNH PHẦN
+                    var participants = meeting.Participants;
+                    var departments = meeting.Departments;
+
+                    // Tạo chuỗi cho THÀNH PHẦN
+                    string participantsText = string.Join(", ", participants);
+                    string departmentsText = string.Join(", ", departments);
+
+                    string combinedText = string.IsNullOrEmpty(participantsText) ? departmentsText : participantsText;
+
+                    dataRow.Append(new TableCell(new Paragraph(new Run(new Text(combinedText))))); // THÀNH PHẦN
+                    dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.Location))))); // ĐỊA ĐIỂM
+                    dataRow.Append(new TableCell(new Paragraph(new Run(new Text(meeting.RegistrationPlace))))); // CHUẨN BỊ
+
+                    table.Append(dataRow);
+                }
+
+                body.Append(table);
+                mainPart.Document.Append(body);
+                mainPart.Document.Save();
+            }
         }
 
         // Thêm cuộc họp mới
@@ -505,6 +670,16 @@ namespace QL_LICHHOP.Repositories
             }
             return meeting;
         }
+        public List<Meeting> ApproveAllScheduleInWeek(DateTime startOfWeek, DateTime endOfWeek)
+        {
+            var meetings = _context.Meetings.Where(m => m.StartTime >= startOfWeek && m.StartTime <= endOfWeek).ToList();
+            foreach (var meeting in meetings)
+            {
+                meeting.Status = "Đã duyệt";
+            }
+            _context.SubmitChanges();
+            return meetings;
+        }
         public Meeting RejectSchedule(int id)
         {
             var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
@@ -538,6 +713,15 @@ namespace QL_LICHHOP.Repositories
             }
             return meeting;
         }
-
+        public Meeting DeleteMeeting(int id)
+        {
+            var meeting = _context.Meetings.FirstOrDefault(m => m.MeetingID == id);
+            if (meeting != null)
+            {
+                meeting.Status = "Đã xóa";
+                _context.SubmitChanges();
+            }
+            return meeting;
+        }
     }
 }

@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var successMessage = ViewBag.SuccessMessage as string;
+    var today = DateTime.Today;
 }
 
 @model List<QL_LICHHOP.Models.MeetingSchedule>
@@ -98,8 +99,10 @@
     <a style="font-size: 20px" href="@Url.Action("Index", new { selectedDate = ViewBag.StartOfWeek.AddDays(7).ToString("yyyy-MM-dd") })"><i class="bi bi-caret-right"></i></a>
 </div>
 <div class="d-flex justify-content-end">
-    <button style="margin-right: 25px" type="button" class="btn btn-outline-success"><i class="bi bi-printer"></i> In lịch</button>
-    <button style="margin-right: 40px" type="button" class="btn btn-outline-success"><i class="bi bi-check-lg"></i> Duyệt tất cả</button>
+    <a href="@Url.Action("PrintSchedule", "ManageSchedule", new { startOfWeek = ViewBag.StartOfWeek, endOfWeek = ViewBag.EndOfWeek, status = "Đã duyệt,Đã hoãn,Đã dời" })" style="margin-right: 25px" type="button" class="btn btn-outline-success">
+        <i class="bi bi-printer"></i> In lịch
+    </a>
+    @*<button style="margin-right: 40px" type="button" class="btn btn-outline-success"><i class="bi bi-check-lg"></i> Duyệt tất cả</button>*@
 </div>
 <table class="table table-bordered" style="border: 1px solid black">
     <thead>
@@ -113,11 +116,11 @@
         @foreach (var schedule in Model)
         {
             <tr style="text-align: center">
-                <th width="150px">
+                <th width="150px" style="@(schedule.Date.Date == today ? "background-color: #FFD700;" : "")">
                     @schedule.DayOfWeek <br />(@schedule.Date.ToString("dd/MM/yyyy")) <br /><br />
-                    <a href="@Url.Action("Create", "ManageSchedule", new { date = schedule.Date.ToString("yyyy-MM-dd") })" style="font-size: 30px">
-                        <i class="bi bi-calendar2-plus"></i>
-                    </a>
+                    @*<a href="@Url.Action("Create", "ManageSchedule", new { date = schedule.Date.ToString("yyyy-MM-dd") })" style="font-size: 30px">
+            <i class="bi bi-calendar2-plus"></i>
+        </a>*@
                 </th>
                 <td style="text-align: left">
                     @if (schedule.MorningSession != null && schedule.MorningSession.Count > 0)
@@ -199,48 +202,51 @@
                             {
                                 <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
                             }
-                            <div class="icon-row" style="font-size: 30px; margin-top: 10px">
-                                <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = morning.MeetingID})" class="icon-link" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Duyệt lịch">
-                                    <i class="bi bi-calendar2-check"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
-                                    <i class="bi bi-calendar2-x"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
-                                    <i class="bi bi-clock"></i>
-                                </a>
-                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
-                                        <i class="bi bi-calendar2-event"></i>
-                                    </a>*@
-                                <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
-                                    <i class="bi bi-calendar2-event"></i>
-                                </a>
+                <div class="icon-row" style="font-size: 30px; margin-top: 10px">
+                    <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = morning.MeetingID, currentController = "OfficialSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Duyệt lịch">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
+                        <i class="bi bi-calendar2-x"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
+                        <i class="bi bi-clock"></i>
+                    </a>
+                    @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
+            <i class="bi bi-calendar2-event"></i>
+        </a>*@
+                    <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalMorning" data-meeting-id="@morning.MeetingID">
+                        <i class="bi bi-calendar2-event"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = morning.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hủy lịch">
+                        <i class="bi bi-trash3"></i>
+                    </a>
 
-                                <!-- Modal cho buổi sáng -->
-                                <div class="modal fade" id="dateTimeModalMorning" tabindex="-1" aria-labelledby="morningModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="morningModalLabel">Chọn ngày và giờ - Buổi Sáng</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="text" id="datepickerMorning" class="form-control mb-2" placeholder="Chọn ngày">
-                                                <input type="time" id="timepickerMorning" class="form-control mb-2">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                <button type="button" id="confirmDateMorning" class="btn btn-primary">Xác nhận</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <!-- Modal cho buổi sáng -->
+                    <div class="modal fade" id="dateTimeModalMorning" tabindex="-1" aria-labelledby="morningModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="morningModalLabel">Chọn ngày và giờ - Buổi Sáng</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" id="datepickerMorning" class="form-control mb-2" placeholder="Chọn ngày">
+                                    <input type="time" id="timepickerMorning" class="form-control mb-2">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" id="confirmDateMorning" class="btn btn-primary">Xác nhận</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
                         }
                     }
                     else
@@ -328,47 +334,50 @@
                             {
                                 <strong>Tài liệu cuộc họp: </strong><span>Không có</span>
                             }
-                            <div class="icon-row" style="font-size: 30px; margin-top: 10px">
-                                <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = afternoon.MeetingID})" class="icon-link" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Duyệt lịch">
-                                    <i class="bi bi-calendar2-check"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
-                                    <i class="bi bi-calendar2-x"></i>
-                                </a>
-                                <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
-                                    <i class="bi bi-clock"></i>
-                                </a>
-                                @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
-                                    <i class="bi bi-calendar2-event"></i>
-                                </a>*@
-                                <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
-                                    <i class="bi bi-calendar2-event"></i>
-                                </a>    
-                                <!-- Modal cho buổi chiều -->
-                                <div class="modal fade" id="dateTimeModalAfternoon" tabindex="-1" aria-labelledby="afternoonModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="afternoonModalLabel">Chọn ngày và giờ - Buổi Chiều</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="text" id="datepickerAfternoon" class="form-control mb-2" placeholder="Chọn ngày">
-                                                <input type="time" id="timepickerAfternoon" class="form-control mb-2">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                <button type="button" id="confirmDateAfternoon" class="btn btn-warning">Xác nhận</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="icon-row" style="font-size: 30px; margin-top: 10px">
+                    <a style="margin-right: 10px" href="@Url.Action("Edit","ManageSchedule",new { id = afternoon.MeetingID, currentController = "OfficialSchedule", selectedDates = ViewBag.SelectedDate})" class="icon-link" title="Chỉnh sửa">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("ApproveMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Phục hồi">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("RejectMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Không duyệt">
+                        <i class="bi bi-calendar2-x"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("CancelMeeting", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hoãn lịch">
+                        <i class="bi bi-clock"></i>
+                    </a>
+                    @*<a style="margin-right: 10px" href="#" class="icon-link" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
+            <i class="bi bi-calendar2-event"></i>
+        </a>*@
+                    <a href="#" class="icon-link open-modal" title="Dời lịch" data-toggle="modal" data-target="#dateTimeModalAfternoon" data-meeting-id="@afternoon.MeetingID">
+                        <i class="bi bi-calendar2-event"></i>
+                    </a>
+                    <a style="margin-right: 10px" href="@Url.Action("Delete", "ManageSchedule", new {id = afternoon.MeetingID, selectedDates = ViewBag.SelectedDate, currentAction = "Index", currentController = "OfficialSchedule"})" class="icon-link" title="Hủy lịch">
+                        <i class="bi bi-trash3"></i>
+                    </a>
+                    <!-- Modal cho buổi chiều -->
+                    <div class="modal fade" id="dateTimeModalAfternoon" tabindex="-1" aria-labelledby="afternoonModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="afternoonModalLabel">Chọn ngày và giờ - Buổi Chiều</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" id="datepickerAfternoon" class="form-control mb-2" placeholder="Chọn ngày">
+                                    <input type="time" id="timepickerAfternoon" class="form-control mb-2">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" id="confirmDateAfternoon" class="btn btn-warning">Xác nhận</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
                         }
                     }
                     else

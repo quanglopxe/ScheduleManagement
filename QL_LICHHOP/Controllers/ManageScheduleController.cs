@@ -51,7 +51,7 @@ namespace QL_LICHHOP.Controllers
                 // Gửi dữ liệu vào repository
                 meetingRepository.AddMeeting(newMeeting, newParticipantsList);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","ExpectedSchedule");
             }
 
             // Ghi log lỗi nếu có
@@ -112,7 +112,7 @@ namespace QL_LICHHOP.Controllers
                 return Json(new { success = true, newUserID = newUser.UserID, message = "Đã thêm người chủ trì mới." }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, string currentController, DateTime? selectedDates)
         {
             var meeting = meetingRepository.GetMeetingById(id);
             if (meeting == null)
@@ -126,12 +126,14 @@ namespace QL_LICHHOP.Controllers
             ViewBag.Departments = departmentRepository.GetDepartments();
             ViewBag.Hosts = userRepository.GetHosts();            
             ViewBag.MeetingHosts = meetingRepository.GetMeetingHosts(id);
+            ViewBag.CurrentController = currentController;
+            ViewBag.SelectedDates = selectedDates;
             return View(meeting);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(MeetingViewModel updatedMeeting, string newParticipants, string ExistingAttachments)
+        public ActionResult Edit(MeetingViewModel updatedMeeting, string newParticipants, string ExistingAttachments, string currentController, DateTime? selectedDates)
         {
             if (ModelState.IsValid)
             {                
@@ -158,7 +160,7 @@ namespace QL_LICHHOP.Controllers
 
                 meetingRepository.UpdateMeeting(updatedMeeting, newParticipantsList);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", currentController, new { selectedDate = selectedDates });
             }
 
             ViewBag.ScheduleTypes = scheduleTypeRepository.GetScheduleTypes();
@@ -191,6 +193,16 @@ namespace QL_LICHHOP.Controllers
             // Chuyển hướng về trang hiện tại với các tham số
             return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
         }
+        public ActionResult ApproveAllMeetingInWeek(DateTime startOfWeek, DateTime endOfWeek, DateTime? selectedDates, string currentAction, string currentController)
+        {
+            var meetings = meetingRepository.ApproveAllScheduleInWeek(startOfWeek, endOfWeek);
+            if (!meetings.Any())
+            {
+                return HttpNotFound();
+            }
+            TempData["SuccessMessage"] = "Duyệt tất cả lịch họp trong tuần thành công!";
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
         public ActionResult RejectMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
         {
             var meeting = meetingRepository.RejectSchedule(id);
@@ -213,7 +225,7 @@ namespace QL_LICHHOP.Controllers
             {
                 return HttpNotFound();
             }
-            TempData["SuccessMessage"] = "Dời cuộc họp thành công!";
+            TempData["SuccessMessage"] = "Dời lịch họp thành công!";
             return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
         }
         public ActionResult CancelMeeting(int id, DateTime? selectedDates, string currentAction, string currentController)
@@ -223,8 +235,26 @@ namespace QL_LICHHOP.Controllers
             {
                 return HttpNotFound();
             }
-            TempData["SuccessMessage"] = "Hoãn cuộc họp thành công!";
+            TempData["SuccessMessage"] = "Hoãn lịch họp thành công!";
             return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
+        public ActionResult Delete(int id, DateTime? selectedDates, string currentAction, string currentController)
+        {
+            var meeting = meetingRepository.DeleteMeeting(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["SuccessMessage"] = "Hủy lịch họp thành công!";
+            return RedirectToAction(currentAction, currentController, new { selectedDate = selectedDates });
+        }
+        public ActionResult PrintSchedule(DateTime startOfWeek, DateTime endOfWeek, string status)
+        {
+            var statusList = status.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            string filePath = Server.MapPath("~/Files/LichCongTac_Tuan.docx");
+            meetingRepository.GenerateWeekScheduleDocument(startOfWeek, endOfWeek, filePath, statusList);         
+
+            return File(filePath, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "LichCongTac_Tuan.docx");
         }
     }
 }

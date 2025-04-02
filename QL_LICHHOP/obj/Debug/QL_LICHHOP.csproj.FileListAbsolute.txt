@@ -70,3 +70,7 @@ G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\obj\Debug\QL_LICHHOP.csproj.CoreCompileInput
 G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\obj\Debug\QL_LICHHOP.csproj.Up2Date
 G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\obj\Debug\QL_LICHHOP.dll
 G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\obj\Debug\QL_LICHHOP.pdb
+G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\bin\DocumentFormat.OpenXml.dll
+G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\bin\DocumentFormat.OpenXml.Framework.dll
+G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\bin\DocumentFormat.OpenXml.xml
+G:\QL_LICHHOP\QL_LICHHOP\QL_LICHHOP\bin\DocumentFormat.OpenXml.Framework.xml
